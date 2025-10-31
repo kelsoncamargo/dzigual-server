@@ -1,0 +1,28 @@
+/**
+ * @module shared.messages
+ * @description Centralized message map for consistent error and success responses.
+ * Structure: Grouped by type (ERROR, SUCCESS), with reusable fragments for entities, actions, and states.
+ * Usage: throw new AppError(MessageMap.ERROR.USER.NOT_FOUND);
+ * Benefits: Compact, reusable, maintainable, type-safe with as const.
+ */
+
+export const MessageMap = {
+  ERROR: {
+    DEFAULT: {
+      INTERNAL_ERROR: 'internal_server_error',
+      UNAUTHORIZED: 'not_authorized',
+    },
+    FILES: {
+      SERVER: {
+        FAILED: 'failed_to_start_server',
+      },
+    },
+  },
+  SUCESS: {
+    FILES: {
+      SERVER: {
+        RUN: 'application_running_on_port',
+      },
+    },
+  },
+} as const;
