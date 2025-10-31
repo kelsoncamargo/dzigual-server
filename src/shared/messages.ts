@@ -13,6 +13,7 @@ export const MessageMap = {
       UNAUTHORIZED: 'not_authorized',
       NOT_FOUND: 'not_found',
       INVALID: 'is_invalid',
+      NOT_ENCRYPTED: 'not_encrypted',
     },
     FILES: {
       SERVER: {
