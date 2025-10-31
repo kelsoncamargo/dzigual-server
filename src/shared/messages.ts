@@ -11,6 +11,8 @@ export const MessageMap = {
     DEFAULT: {
       INTERNAL_ERROR: 'internal_server_error',
       UNAUTHORIZED: 'not_authorized',
+      NOT_FOUND: 'not_found',
+      INVALID: 'is_invalid',
     },
     FILES: {
       SERVER: {
