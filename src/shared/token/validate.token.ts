@@ -14,15 +14,6 @@
  * @param {string} token - The JWT string to validate and decode.
  * @returns {IJwtPayload} The decoded JWT payload.
  *
- * @example
- * import { validateToken } from './validateToken';
- * try {
- *   const payload = validateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...');
- *   console.log(payload); // { id: 1, role: 'user' }
- * } catch (err) {
- *   console.error(err); // Error: invalid_token
- * }
- *
  * @throws Error If token is invalid or verification fails.
  */
 
