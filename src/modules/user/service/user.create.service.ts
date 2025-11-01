@@ -1,19 +1,22 @@
 /**
- * @module service.user
- * @description Creates a new user after validating email uniqueness.
+ * @fileoverview Service function to create a new user: checks for existing email, hashes password, and calls repository to persist.
  *
- * @param {IUserCreate} params
- *   - `email` (string): User's email address
- *   - `name` (string): User's first name
- *   - `lastName` (string): User's last name
- *   - `password` (string): Plain-text password to hash
- *   - `phoneNumber` (string | null): User's phone number (optional)
- *   - `role` (Role): User's assigned role
- * @returns {Promise<IUserCreateDto>}
- *   - Resolves with the created user record
- * @throws {Error}
- *   - MessageMap.ERROR.USER.IN_USE if email already exists
- *   - MessageMap.ERROR.DATABASE on any database failure
+ * @module user-create-service
+ * @version 1.0.0
+ *
+ * ### Key Setup
+ * - Checks if user exists by email.
+ * - Encrypts password using password.encryptPassword.
+ * - Creates user via createRepo if valid.
+ *
+ * ### Functions
+ * - create({ email, name, lastName, password, phoneNumber }): Asynchronously creates user and returns DTO.
+ *
+ * @param {IUserCreate} { email, name, lastName, password, phoneNumber } - User creation input data.
+ * @returns {Promise<IUserCreateDto>} The created user DTO.
+ *
+ * @throws Error If email in use or creation fails, with custom message.
+ *
  */
 
 import { create as createRepo } from '../repo/user.create.repo';
@@ -23,23 +26,22 @@ import {
   IUserCreateDto,
 } from '../interface/user.create.interface';
 import { MessageMap } from '../../../shared/messages';
-import { encryptPassword } from '../../../shared/password';
+import { password } from '../../../shared/password/passowrd';
 
 export const create = async ({
   email,
   name,
   lastName,
-  password,
+  password: userPassword,
   phoneNumber,
-  role,
 }: IUserCreate): Promise<IUserCreateDto> => {
   const userExists = await getRepo({ email });
 
   if (userExists) {
-    throw new Error(MessageMap.ERROR.USER.IN_USE);
+    throw new Error(`email_${MessageMap.ERROR.DEFAULT.IN_USE}`);
   }
 
-  const hashedPassword = await encryptPassword(password);
+  const hashedPassword = await password.encryptPassword(userPassword);
 
   return await createRepo({
     email,
@@ -47,6 +49,5 @@ export const create = async ({
     lastName,
     password: hashedPassword,
     phoneNumber,
-    role,
   });
 };

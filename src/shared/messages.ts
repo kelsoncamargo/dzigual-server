@@ -15,6 +15,7 @@ export const MessageMap = {
       INVALID: 'is_invalid',
       NOT_ENCRYPTED: 'not_encrypted',
       COMPARISON_FAILED: 'comparison_failed',
+      IN_USE: 'in_use',
     },
     FILES: {
       SERVER: {
