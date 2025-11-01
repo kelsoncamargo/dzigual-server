@@ -10,12 +10,6 @@
  * ### Class
  * - Cookies: Class with methods for setting auth/access tokens and clearing cookies.
  *
- * ### Usage
- * - Import and use the exported 'cookies' instance for cookie operations.
- *
- * @example
- * import { cookies } from './cookies';
- * cookies.setAuthCookies(res, 'access', 'refresh'); // Sets auth cookies
  */
 
 import { clearAuthCookies } from './clear.auth.cookies';
