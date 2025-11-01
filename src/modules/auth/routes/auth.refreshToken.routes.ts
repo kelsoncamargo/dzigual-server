@@ -18,11 +18,8 @@ import { authController } from '../controller/auth.controller';
 
 const authRefreshTokenRouter = express.Router();
 
-authRefreshTokenRouter.get(
-  '/refreshToken',
-  async (req: Request, res: Response) => {
-    await authController.refreshToken(req, res);
-  },
-);
+authRefreshTokenRouter.get('/', async (req: Request, res: Response) => {
+  await authController.refreshToken(req, res);
+});
 
 export default authRefreshTokenRouter;

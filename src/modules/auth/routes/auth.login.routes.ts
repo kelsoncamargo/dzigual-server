@@ -10,7 +10,7 @@
  * - Calls authController.login handler.
  *
  * ### Routes
- * - GET /login: Handles login with validation and controller.
+ * - POST: Handles login with validation and controller.
  *
  */
 
@@ -21,8 +21,8 @@ import { authSchema } from '../schema/auth.schema';
 
 const authLoginRouter = express.Router();
 
-authLoginRouter.get(
-  '/login',
+authLoginRouter.post(
+  '/',
   celebrate(authSchema.login()),
   async (req: Request, res: Response) => {
     await authController.login(req, res);

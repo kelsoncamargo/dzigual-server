@@ -9,7 +9,7 @@
  * - Calls authController.logout handler.
  *
  * ### Routes
- * - GET /logout: Handles logout with controller.
+ * - PUT: Handles logout with controller.
  *
  */
 
@@ -18,7 +18,7 @@ import { authController } from '../controller/auth.controller';
 
 const authLogoutRouter = express.Router();
 
-authLogoutRouter.get('/logout', async (req: Request, res: Response) => {
+authLogoutRouter.put('/', async (req: Request, res: Response) => {
   await authController.logout(req, res);
 });
 
