@@ -1,13 +1,21 @@
 /**
- * @module repository.user
- * @description Retrieves a user by their email address.
+ * @fileoverview Repository function to retrieve a user by email from the database using Prisma.
  *
- * @param {IUserGet} params
- *   - `email` (string): User's email address to search for
- * @returns {Promise<User | null>}
- *   - Resolves with the User record if found, otherwise null
- * @throws {Error}
- *   - Throws MessageMap.ERROR.DATABASE on any database failure
+ * @module user-get-repo
+ * @version 1.0.0
+ *
+ * ### Key Setup
+ * - Queries user by email using findFirst.
+ * - Returns user if found or null; throws error on failure.
+ *
+ * ### Functions
+ * - get({ email }): Asynchronously fetches and returns the user or null.
+ *
+ * @param {IUserGet} { email } - User get input with email.
+ * @returns {Promise<User | null>} The user object if found, or null.
+ *
+ * @throws Error On database query failure, with custom message.
+ *
  */
 
 import { User } from '@prisma/client';
@@ -23,6 +31,6 @@ export const get = async ({ email }: IUserGet): Promise<User | null> => {
       },
     });
   } catch (err) {
-    throw new Error(`${MessageMap.ERROR.DATABASE}`);
+    throw new Error(`database_${MessageMap.ERROR.DEFAULT.INTERNAL_ERROR}`);
   }
 };
