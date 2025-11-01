@@ -1,43 +1,33 @@
 /**
- * UserRemoveRouter
+ * @fileoverview Express router for user removal endpoint with authentication.
  *
- * Express router for deleting a user under an active user.
+ * @module user-remove-router
+ * @version 1.0.0
  *
- * @route DELETE /user/remove
- * @middleware authenticate                     – Verifies JWT and attaches `req.payload`.
- * @middleware requireuserActive             – Ensures the user is ACTIVE.
- * @middleware authorize("user:*")              – Checks user has any user-level permission.
- * @middleware celebrate(userSchema.remove())   – Validates request query parameters.
+ * ### Key Setup
+ * - Defines router with DELETE / route.
+ * - Applies authenticate middleware for auth check.
+ * - Calls userController.remove handler.
  *
- * @returns {void} Delegates to `userController.remove` on success.
- * @throws {401} If authentication fails (invalid or missing token).
- * @throws {403} If the user is inactive.
- * @throws {400} If request validation fails or the controller throws an error.
+ * ### Routes
+ * - DELETE /: Removes user with auth and controller.
+ *
+ * @example
+ * import userRemoveRouter from './userRemoveRouter';
+ * app.use('/users', userRemoveRouter); // Mount at /users/
  */
 
-import express, { NextFunction, Request, Response } from "express";
-import { authenticate } from "../../../middlewares/auth/middleware/auth.middleware";
-import { authorize } from "../../../middlewares/authorize/authorize.middleware";
-import { userController } from "../controller/user.controller";
-import { celebrate } from "celebrate";
-import { userSchema } from "../schema/user.schema";
-import { requireCompanyActive } from "../../../middlewares/company/company.middleware";
+import express, { NextFunction, Request, Response } from 'express';
+import { authenticate } from '../../../middlewares/auth/middleware/auth.middleware';
+import { userController } from '../controller/user.controller';
 
 const userRemoveRouter = express.Router();
 
-userRemoveRouter.post(
-  "/remove",
+userRemoveRouter.delete(
+  '/',
   async (req: Request, res: Response, next: NextFunction) => {
     await authenticate(req, res, next);
   },
-
-  async (req: Request, res: Response, next: NextFunction) => {
-    await requireCompanyActive(req, res, next);
-  },
-
-  authorize("user:*"),
-
-  celebrate(userSchema.remove()),
 
   async (req: Request, res: Response) => {
     await userController.remove(req, res);
@@ -45,4 +35,3 @@ userRemoveRouter.post(
 );
 
 export default userRemoveRouter;
-

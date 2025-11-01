@@ -22,11 +22,6 @@ export function update(): object {
   return {
     [Segments.BODY]: Joi.object()
       .keys({
-        email: Joi.string().trim().email().required().messages({
-          'string.email': 'Email must be a valid email address',
-          'any.required': 'Email is required',
-        }),
-
         newEmail: Joi.string()
           .trim()
           .email()

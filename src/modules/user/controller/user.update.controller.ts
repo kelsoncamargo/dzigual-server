@@ -30,7 +30,7 @@ export const update = async (
 ): Promise<Response> => {
   try {
     const user = await updateService({
-      email: req.body.email,
+      email: req.payload.email,
       newEmail: req.body.newEmail,
       name: req.body.name,
       lastName: req.body.lastName,
