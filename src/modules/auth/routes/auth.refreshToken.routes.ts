@@ -1,27 +1,28 @@
 /**
- * AuthRefreshTokenRouter
+ * @fileoverview Express router for authentication refresh token endpoint.
  *
- * Express router for refreshing JWT access tokens.
+ * @module auth-refresh-router
+ * @version 1.0.0
  *
- * @route GET /auth/refreshToken
- * @returns {void}
- *   Delegates to `authController.refreshToken` to validate the refresh token,
- *   clear the old access token cookie, set a new one, and respond with a success message.
- * @throws {400}
- *   If the refresh token is invalid or any error occurs, responds with 400 Bad Request and an error message.
+ * ### Key Setup
+ * - Defines router with GET /refreshToken route.
+ * - Calls authController.refreshToken handler.
+ *
+ * ### Routes
+ * - GET /refreshToken: Handles token refresh with controller.
+ *
  */
 
-
-import express, { Request, Response } from "express";
-import { authController } from "../controller/auth.controller";
+import express, { Request, Response } from 'express';
+import { authController } from '../controller/auth.controller';
 
 const authRefreshTokenRouter = express.Router();
 
 authRefreshTokenRouter.get(
-  "/refreshToken",
+  '/refreshToken',
   async (req: Request, res: Response) => {
     await authController.refreshToken(req, res);
-  }
+  },
 );
 
 export default authRefreshTokenRouter;

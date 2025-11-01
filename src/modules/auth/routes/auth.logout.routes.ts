@@ -1,14 +1,16 @@
 /**
- * AuthLogoutRouter
+ * @fileoverview Express router for authentication logout endpoint.
  *
- * Express router for user logout endpoint.
+ * @module auth-logout-router
+ * @version 1.0.0
  *
- * @route GET /auth/logout
+ * ### Key Setup
+ * - Defines router with GET /logout route.
+ * - Calls authController.logout handler.
  *
- * @returns {void}
- *   Delegates to `authController.logout` to revoke refresh token and clear cookies.
- * @throws {400}
- *   If logout operation fails, responds with 400 Bad Request and error message.
+ * ### Routes
+ * - GET /logout: Handles logout with controller.
+ *
  */
 
 import express, { Request, Response } from 'express';

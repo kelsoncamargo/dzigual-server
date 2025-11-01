@@ -1,15 +1,17 @@
 /**
- * AuthLoginRouter
+ * @fileoverview Express router for authentication login endpoint with validation.
  *
- * Express router for user authentication (login) endpoint.
+ * @module auth-login-router
+ * @version 1.0.0
  *
- * @route GET /auth/login
- * @middleware celebrate(authSchema.login())   – Validates request payload against the login schema.
+ * ### Key Setup
+ * - Defines router with GET /login route.
+ * - Applies celebrate validation using authSchema.login().
+ * - Calls authController.login handler.
  *
- * @returns {void}
- *   Delegates to `authController.login` on successful validation.
- * @throws {400}
- *   If validation fails, Celebrate will return a 400 Bad Request.
+ * ### Routes
+ * - GET /login: Handles login with validation and controller.
+ *
  */
 
 import express, { Request, Response } from 'express';

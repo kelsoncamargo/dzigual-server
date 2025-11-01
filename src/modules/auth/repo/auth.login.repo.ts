@@ -21,7 +21,6 @@
 import { User } from '@prisma/client';
 import { MessageMap } from '../../../shared/messages';
 import { userRepository } from '../../user/repo/user.repo';
-import { IAuthLogin } from '../interface/auth.login.interface';
 
 export const login = async (email: string): Promise<User | null> => {
   try {
