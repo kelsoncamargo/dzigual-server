@@ -1,22 +1,23 @@
 /**
- * @module controller.user
- * @description Express handler to update a user's details.
+ * @fileoverview Controller function to update a user: processes request body, calls service, and responds with updated user or error.
  *
- * @param {Request} req - Express request object containing:
- *   - body.email (string): Current user email
- *   - body.newEmail (string | undefined): New email address (optional)
- *   - body.name (string | undefined): New name (optional)
- *   - body.lastName (string | undefined): New last name (optional)
- *   - body.password (string | undefined): New password (optional)
- *   - body.phoneNumber (string | undefined): New phone number (optional)
- *   - body.role (Role | undefined): New role (optional)
- * @param {Response} res - Express response object
- * @returns {Promise<Response>}
- *   - Success: 200 OK with:
- *     - message: MessageMap.SUCCESS.USER.UPDATE
- *     - user: Updated user data
- *   - Error: 400 Bad Request with:
- *     - message: Error message
+ * @module user-update-controller
+ * @version 1.0.0
+ *
+ * ### Key Setup
+ * - Extracts update data from req.body.
+ * - Calls updateService to persist changes.
+ * - Responds with 200 success and user, or 400 error.
+ *
+ * ### Functions
+ * - update(req, res): Handles user update request asynchronously.
+ *
+ * @param {Request} req - Express request with body containing email, newEmail, name, lastName, password, phoneNumber.
+ * @param {Response} res - Express response for sending status, message, and user.
+ * @returns {Promise<Response>} The Express response object.
+ *
+ * @throws Error Responds with 400 and error message on failure.
+ *
  */
 
 import { Request, Response } from 'express';
@@ -35,11 +36,10 @@ export const update = async (
       lastName: req.body.lastName,
       password: req.body.password,
       phoneNumber: req.body.phoneNumber,
-      role: req.body.role,
     });
 
     return res.status(200).json({
-      message: MessageMap.SUCCESS.USER.UPDATE,
+      message: `updated_${MessageMap.SUCCESS.DEFAULT.SUCCESS}`,
       user,
     });
   } catch (error) {
@@ -47,7 +47,7 @@ export const update = async (
       message:
         error instanceof Error
           ? error.message
-          : MessageMap.ERROR.USER.NOT_FOUND,
+          : MessageMap.ERROR.DEFAULT.SERVER,
     });
   }
 };
