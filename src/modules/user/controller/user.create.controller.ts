@@ -46,7 +46,7 @@ export const create = async (
       message:
         error instanceof Error
           ? error.message
-          : `user_${MessageMap.ERROR.DEFAULT.INVALID}`,
+          : MessageMap.ERROR.DEFAULT.SERVER,
     });
   }
 };

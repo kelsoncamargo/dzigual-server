@@ -1,18 +1,28 @@
 /**
- * @module controller.user
- * @description Express handler to retrieve a user by email.
+ * @fileoverview Controller function to get a user by email: processes query param, calls service, and responds with user or error.
  *
- * @param {Request} req - Express request object containing:
- *   - query.email (string): User's email address
- * @param {Response} res - Express response object
- * @returns {Promise<Response>}
- *   - Success: 200 OK with user data
- *   - Error: 400 Bad Request with:
- *     - message: Error message
+ * @module user-get-controller
+ * @version 1.0.0
+ *
+ * ### Key Setup
+ * - Extracts email from req.query.
+ * - Calls getService to fetch user.
+ * - Responds with 200 and user, or 400 error.
+ *
+ * ### Functions
+ * - get(req, res): Handles user get request asynchronously.
+ *
+ * @param {Request} req - Express request with query.email.
+ * @param {Response} res - Express response for sending status and data.
+ * @returns {Promise<Response>} The Express response object.
+ *
+ * @throws Error Responds with 400 and error message on failure.
+ *
  */
 
 import { Request, Response } from 'express';
 import { get as getService } from '../service/user.get.service';
+import { MessageMap } from '../../../shared/messages';
 
 export const get = async (req: Request, res: Response): Promise<Response> => {
   try {
@@ -24,7 +34,9 @@ export const get = async (req: Request, res: Response): Promise<Response> => {
   } catch (error) {
     return res.status(400).json({
       message:
-        error instanceof Error ? error.message : 'Unknown error occurred',
+        error instanceof Error
+          ? error.message
+          : MessageMap.ERROR.DEFAULT.SERVER,
     });
   }
 };

@@ -1,15 +1,23 @@
 /**
- * @module controller.user
- * @description Express handler to delete a user by email.
+ * @fileoverview Controller function to remove a user: processes request body, calls service, and responds with success or error.
  *
- * @param {Request} req - Express request object containing:
- *   - body.email (string): User's email address to delete
- * @param {Response} res - Express response object
- * @returns {Promise<Response>}
- *   - Success: 200 OK with:
- *     - message: MessageMap.SUCCESS.USER.REMOVED
- *   - Error: 400 Bad Request with:
- *     - message: Error message
+ * @module user-remove-controller
+ * @version 1.0.0
+ *
+ * ### Key Setup
+ * - Extracts email from req.body.
+ * - Calls removeService to delete user.
+ * - Responds with 200 success message or 400 error.
+ *
+ * ### Functions
+ * - remove(req, res): Handles user removal request asynchronously.
+ *
+ * @param {Request} req - Express request with body.email.
+ * @param {Response} res - Express response for sending status and message.
+ * @returns {Promise<Response>} The Express response object.
+ *
+ * @throws Error Responds with 400 and error message on failure.
+ *
  */
 
 import { Request, Response } from 'express';
@@ -26,14 +34,14 @@ export const remove = async (
     });
 
     return res.status(200).json({
-      message: MessageMap.SUCCESS.USER.REMOVED,
+      message: `user_removed_${MessageMap.SUCCESS.DEFAULT.SUCCESS}`,
     });
   } catch (error) {
     return res.status(400).json({
       message:
         error instanceof Error
           ? error.message
-          : MessageMap.ERROR.USER.NOT_FOUND,
+          : MessageMap.ERROR.DEFAULT.SERVER,
     });
   }
 };
