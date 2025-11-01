@@ -1,21 +1,20 @@
 /**
- * AuthController
+ * @fileoverview Controller class aggregating authentication handlers (login, logout, refreshToken) and exporting a singleton instance.
  *
- * Controller class responsible for authentication endpoints.
+ * @module auth-controller
+ * @version 1.0.0
  *
- * @method login(req: Request, res: Response): Promise<Response>
- *   – Handles user login by validating credentials, issuing JWTs, and setting auth cookies.
+ * ### Key Setup
+ * - Aggregates auth controller functions into a class for centralized access.
  *
- * @method logout(req: Request, res: Response): Promise<Response>
- *   – Handles user logout by revoking the refresh token and clearing auth cookies.
+ * ### Class
+ * - AuthController: Class with methods for login, logout, and refreshToken.
  *
- * @method refreshToken(req: Request, res: Response): Promise<Response>
- *   – Handles access token renewal by validating the refresh token and setting a new access token cookie.
  */
 
-import { login } from "./auth.login.controller";
-import { logout } from "./auth.logout.controller";
-import { refreshToken } from "./auth.refreshToken.controller";
+import { login } from './auth.login.controller';
+import { logout } from './auth.logout.controller';
+import { refreshToken } from './auth.refreshToken.controller';
 
 export class AuthController {
   login = login;
