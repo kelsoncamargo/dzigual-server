@@ -23,7 +23,7 @@ import { MessageMap } from '../../../shared/messages';
 import { userRepository } from '../../user/repo/user.repo';
 import { IAuthLogin } from '../interface/auth.login.interface';
 
-export const login = async ({ email }: IAuthLogin): Promise<User | null> => {
+export const login = async (email: string): Promise<User | null> => {
   try {
     return await userRepository.get({ email });
   } catch (err) {

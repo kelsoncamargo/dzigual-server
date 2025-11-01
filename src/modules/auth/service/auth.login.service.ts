@@ -1,59 +1,56 @@
 /**
- * @module service.auth
- * @description Authenticates a user and issues JWT access and refresh tokens.
+ * @fileoverview Service function to handle user login: validates credentials, generates access/refresh tokens, and returns them.
  *
- * @param {IAuthLogin} loginData
- *   - `email` (string): User's email address
- *   - `password` (string): Plain-text password to validate
- * @returns {Promise<IAuthLoginDto>}
- *   - Resolves with:
- *     - `token` (string): Signed JWT access token
- *     - `refreshToken` (string): Signed JWT refresh token
- * @throws {Error}
- *   - MessageMap.ERROR.USER.NOT_FOUND if user doesn't exist
- *   - MessageMap.ERROR.AUTH.NOT_FOUND if password is invalid
- *   - MessageMap.ERROR.DATABASE on any database failure
+ * @module auth-login-service
+ * @version 1.0.0
+ *
+ * ### Key Setup
+ * - Fetches user by email, validates password, generates JWT tokens.
+ * - Throws errors for not found, invalid password, or failures.
+ *
+ * ### Functions
+ * - login(loginData): Asynchronously processes login and returns tokens DTO.
+ *
+ * @param {IAuthLogin} loginData - Login input with email and password.
+ * @returns {Promise<IAuthLoginDto>} DTO with newToken (access) and newRefreshToken.
+ *
+ * @throws Error If user not found, password invalid, or internal failure.
+ *
  */
 
 import { MessageMap } from '../../../shared/messages';
-import { decryptPassword } from '../../../shared/password';
-import { generateToken } from '../../../shared/token/token.jwt';
-import { generateRefreshToken } from '../../../shared/token/token.jwt.refresh';
+import { password } from '../../../shared/password/passowrd';
+import { token } from '../../../shared/token/token.jwt';
 import { IAuthLogin, IAuthLoginDto } from '../interface/auth.login.interface';
 import { authRepository } from '../repo/auth.repo';
 
 export const login = async (loginData: IAuthLogin): Promise<IAuthLoginDto> => {
-  const { email, password } = loginData;
+  const { email, password: userPassword } = loginData;
 
-  const user = await authRepository.login({
-    email,
-    password,
-  });
+  const user = await authRepository.login(email);
 
   if (!user) {
-    throw new Error(`${MessageMap.ERROR.USER.NOT_FOUND}`);
+    throw new Error(`user_${MessageMap.ERROR.DEFAULT.NOT_FOUND}`);
   }
 
-  const validPassword = decryptPassword(loginData.password, user?.password);
+  const validPassword = password.decryptPassword(userPassword, user?.password);
 
   if (!validPassword) {
-    throw new Error(MessageMap.ERROR.AUTH.NOT_FOUND);
+    throw new Error(MessageMap.ERROR.DEFAULT.UNAUTHORIZED);
   }
 
-  const token = generateToken({
+  const newToken = token.createToken({
     id: user.id,
     email: user.email,
-    role: user.role,
   });
 
-  const refreshToken = await generateRefreshToken({
+  const newRefreshToken = await token.createRefreshToken({
     id: user.id,
     email: user.email,
-    role: user.role,
   });
 
   return {
-    token,
-    refreshToken,
+    newToken,
+    newRefreshToken,
   };
 };

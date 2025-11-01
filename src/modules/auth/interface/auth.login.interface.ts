@@ -4,6 +4,6 @@ export interface IAuthLogin {
 }
 
 export interface IAuthLoginDto {
-  token: string;
-  refreshToken: string;
+  newToken: string;
+  newRefreshToken: string;
 }
