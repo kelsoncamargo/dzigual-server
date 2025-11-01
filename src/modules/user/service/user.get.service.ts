@@ -1,21 +1,20 @@
 /**
- * @module service.user
- * @description Retrieves a user by email address.
+ * @fileoverview Service function to get a user by email: calls repository, checks existence, and returns DTO or throws error.
  *
- * @param {IUserGet} params
- *   - `email` (string): User's email address to search for.
- * @returns {Promise<IUserGetDto>}
- *   - Resolves with user record containing:
- *     - id: string
- *     - email: string
- *     - name: string
- *     - lastName: string
- *     - phoneNumber: string | null
- *     - role: Role
- *     - isActive: boolean
- * @throws {Error}
- *   - MessageMap.ERROR.USER.NOT_FOUND if no matching user exists
- *   - MessageMap.ERROR.DATABASE on any database failure
+ * @module user-get-service
+ * @version 1.0.0
+ *
+ * ### Key Setup
+ * - Fetches user via getRepo, throws if not found.
+ *
+ * ### Functions
+ * - get({ email }): Asynchronously gets user and returns DTO.
+ *
+ * @param {IUserGet} { email } - User get input with email.
+ * @returns {Promise<IUserGetDto>} The user DTO if found.
+ *
+ * @throws Error If user not found, with custom message.
+ *
  */
 
 import { get as getRepo } from '../repo/user.get.repo';
@@ -26,7 +25,7 @@ export const get = async ({ email }: IUserGet): Promise<IUserGetDto> => {
   const user = await getRepo({ email });
 
   if (!user) {
-    throw new Error(MessageMap.ERROR.USER.NOT_FOUND);
+    throw new Error(`user_${MessageMap.ERROR.DEFAULT.NOT_FOUND}`);
   }
 
   return user;
