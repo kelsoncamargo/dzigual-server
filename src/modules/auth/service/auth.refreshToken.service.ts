@@ -1,18 +1,21 @@
 /**
- * refreshToken
+ * @fileoverview Service function to refresh access token using a refresh token, generating a new access token from the validated payload.
  *
- * Service method to exchange a valid refresh token for a new access token.
+ * @module auth-refresh-service
+ * @version 1.0.0
  *
- * @param {IAuthRefreshToken} params
- *   – `refreshToken` (string): The JWT refresh token to validate.
- * @returns {Promise<IAuthRefreshTokenDto>}
- *   – Resolves with an object containing:
- *     • `token` (string): Newly signed access token.
- * @throws {Error}
- *   – Throws if the refresh token is invalid or expired.
+ * ### Key Setup
+ * - Validates refresh token via repository, extracts payload, generates new access token.
+ *
+ * ### Functions
+ * - refreshToken(refreshTokenData): Processes refresh and returns new token DTO.
+ *
+ * @param {IAuthRefreshToken} refreshTokenData - Input with refreshToken.
+ * @returns {Promise<IAuthRefreshTokenDto>} DTO with new access token.
+ *
  */
 
-import { generateToken } from '../../../shared/token/token.jwt';
+import { token } from '../../../shared/token/token.jwt';
 import {
   IAuthRefreshToken,
   IAuthRefreshTokenDto,
@@ -28,7 +31,7 @@ export const refreshToken = async (
     refreshToken,
   });
 
-  const newToken = generateToken({
+  const newToken = token.createToken({
     email,
     id,
     role,

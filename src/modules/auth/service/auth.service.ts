@@ -1,21 +1,20 @@
 /**
- * AuthService
+ * @fileoverview Service class aggregating authentication functions (login, logout, refreshToken) and exporting a singleton instance.
  *
- * Service class responsible for authentication business logic.
+ * @module auth-service
+ * @version 1.0.0
  *
- * @method login(params: IAuthLogin): Promise<IAuthLoginDto>
- *   – Validates user credentials and issues JWT access and refresh tokens.
+ * ### Key Setup
+ * - Aggregates auth service functions into a class for centralized access.
  *
- * @method logout(params: IAuthLogout): Promise<IAuthLogoutDto | Error>
- *   – Revokes a user's refresh token and returns logout confirmation.
+ * ### Class
+ * - AuthService: Class with methods for login, logout, and refreshToken.
  *
- * @method refreshToken(params: IAuthRefreshToken): Promise<IAuthRefreshTokenDto>
- *   – Validates a refresh token and issues a new access token.
  */
 
-import { login } from "./auth.login.service";
-import { logout } from "./auth.logout.service";
-import { refreshToken } from "./auth.refreshToken.service";
+import { login } from './auth.login.service';
+import { logout } from './auth.logout.service';
+import { refreshToken } from './auth.refreshToken.service';
 
 class AuthService {
   login = login;
