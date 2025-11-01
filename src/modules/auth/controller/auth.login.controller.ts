@@ -16,7 +16,7 @@
  *   Responds with 400 Bad Request and `{ message: string }` on failure.
  */
 
-import { setAuthCookies } from '../../../shared/cookies/cookies.helper';
+import { setAuthCookies } from '../../../shared/cookies/cookies';
 import { MessageMap } from '../../../shared/messages';
 import { authService } from '../service/auth.service';
 import { Request, Response } from 'express';

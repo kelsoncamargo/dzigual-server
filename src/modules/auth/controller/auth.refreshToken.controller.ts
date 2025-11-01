@@ -12,7 +12,7 @@
  *   – Responds with 400 Bad Request and `{ message: string }` if the refresh token is invalid or any error occurs.
  */
 
-import { setAccessToken } from '../../../shared/cookies/cookies.helper';
+import { setAccessToken } from '../../../shared/cookies/cookies';
 import { MessageMap } from '../../../shared/messages';
 import { authService } from '../service/auth.service';
 import { Request, Response } from 'express';

@@ -12,7 +12,7 @@
  *   – Responds with 400 Bad Request and `{ message: string }` when an error occurs.
  */
 
-import { clearAuthCookies } from '../../../shared/cookies/cookies.helper';
+import { clearAuthCookies } from '../../../shared/cookies/cookies';
 import { MessageMap } from '../../../shared/messages';
 import { authService } from '../service/auth.service';
 import { Request, Response } from 'express';
