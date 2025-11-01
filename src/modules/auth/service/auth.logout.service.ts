@@ -1,13 +1,21 @@
 /**
- * logout
+ * @fileoverview Service function to handle user logout by calling the repository and returning a DTO or error.
  *
- * Service method to revoke a user's refresh token and perform logout.
+ * @module auth-logout-service
+ * @version 1.0.0
  *
- * @param {IAuthLogout} params
- *   – `refreshToken` (string): The JWT refresh token to revoke.
- * @returns {Promise<IAuthLogoutDto | Error>}
- *   – Resolves with `IAuthLogoutDto` containing a success message.
- *   – Returns `Error(MessageMap.ERROR.TOKEN.INVALID)` if the token is invalid or revocation failed.
+ * ### Key Setup
+ * - Calls authRepository.logout with refreshToken.
+ * - Returns DTO on success or throws error if invalid.
+ *
+ * ### Functions
+ * - logout(logoutData): Asynchronously processes logout and returns DTO.
+ *
+ * @param {IAuthLogout} logoutData - Logout input with refreshToken.
+ * @returns {Promise<IAuthLogoutDto>} DTO on success.
+ *
+ * @throws Error If logout fails or user invalid.
+ *
  */
 
 import { MessageMap } from '../../../shared/messages';
@@ -27,7 +35,7 @@ export const logout = async (
   });
 
   if (!logoutUser) {
-    return new Error(MessageMap.ERROR.TOKEN.INVALID);
+    return new Error(`${MessageMap.ERROR.DEFAULT.INVALID}_user`);
   }
 
   return logoutUser;
