@@ -1,21 +1,23 @@
 /**
- * @module controller.user
- * @description Express handler to register a new user.
+ * @fileoverview Controller function to create a new user: processes request body, calls service, and responds with success or error.
  *
- * @param {Request} req - Express request object containing:
- *   - body.name (string): User's first name
- *   - body.lastName (string): User's last name
- *   - body.email (string): User's email address
- *   - body.password (string): User's password
- *   - body.phoneNumber (string | undefined): User's phone number (optional)
- *   - body.role (Role): User's assigned role
- * @param {Response} res - Express response object
- * @returns {Promise<Response>}
- *   - Success: 201 Created with:
- *     - message: MessageMap.SUCCESS.USER.REGISTER
- *     - user: Created user data
- *   - Error: 400 Bad Request with:
- *     - message: Error message
+ * @module user-create-controller
+ * @version 1.0.0
+ *
+ * ### Key Setup
+ * - Extracts user data from req.body.
+ * - Calls createService to persist user.
+ * - Responds with 201 success and user, or 400 error.
+ *
+ * ### Functions
+ * - create(req, res): Handles user creation request asynchronously.
+ *
+ * @param {Request} req - Express request with body containing name, lastName, email, password, phoneNumber.
+ * @param {Response} res - Express response for sending status, message, and user.
+ * @returns {Promise<Response>} The Express response object.
+ *
+ * @throws Error Responds with 400 and error message on failure.
+ *
  */
 
 import { Request, Response } from 'express';
@@ -33,17 +35,18 @@ export const create = async (
       email: req.body.email,
       password: req.body.password,
       phoneNumber: req.body.phoneNumber,
-      role: req.body.role,
     });
 
     return res.status(201).json({
-      message: MessageMap.SUCCESS.REGISTER,
+      message: `create_${MessageMap.SUCCESS.DEFAULT.SUCCESS}`,
       user,
     });
   } catch (error) {
     return res.status(400).json({
       message:
-        error instanceof Error ? error.message : MessageMap.ERROR.USER.INVALID,
+        error instanceof Error
+          ? error.message
+          : `user_${MessageMap.ERROR.DEFAULT.INVALID}`,
     });
   }
 };
