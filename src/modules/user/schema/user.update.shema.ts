@@ -1,5 +1,7 @@
 /**
- * @module schema.user
+ * @module schema.update
+ * @version 1.0.0
+ *
  * @description Validation schema for updating user information.
  *
  * @returns {object}
@@ -10,25 +12,21 @@
  *     - lastName (string): 3-30 characters, optional
  *     - password (string): minimum 6 characters, optional
  *     - phoneNumber (string): optional
- *     - role (Role): valid role enum value, optional
  * @throws {400 Bad Request}
  *   - On validation failure via celebrate middleware
  */
 
 import { Segments, Joi } from 'celebrate';
-import { Role } from '@prisma/client';
 
 export function update(): object {
   return {
     [Segments.BODY]: Joi.object()
       .keys({
-        // current email (required, used to identify the user)
         email: Joi.string().trim().email().required().messages({
           'string.email': 'Email must be a valid email address',
           'any.required': 'Email is required',
         }),
 
-        // optional new email (must be valid and different from `email`)
         newEmail: Joi.string()
           .trim()
           .email()
@@ -59,18 +57,9 @@ export function update(): object {
         phoneNumber: Joi.string().trim().allow(null).optional().messages({
           'string.base': 'Phone number must be a string',
         }),
-
-        role: Joi.string()
-          .valid(...Object.values(Role))
-          .optional()
-          .messages({
-            'any.only': `Role must be one of: ${Object.values(Role).join(
-              ', ',
-            )}`,
-          }),
       })
       // require at least one updatable field besides the identifying `email`
-      .or('newEmail', 'name', 'password', 'role', 'lastName', 'phoneNumber')
+      .or('newEmail', 'name', 'password', 'lastName', 'phoneNumber')
       .messages({
         'object.missing': 'At least one field must be provided for update',
       }),
