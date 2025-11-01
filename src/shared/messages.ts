@@ -22,9 +22,9 @@ export const MessageMap = {
       },
     },
   },
-  SUCESS: {
+  SUCCESS: {
     DEFAULT: {
-      SUCESS: 'operation_successful',
+      SUCCESS: 'operation_successful',
     },
     FILES: {
       SERVER: {

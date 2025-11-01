@@ -61,7 +61,7 @@ server.use(cookieParser());
 
     const PORT = process.env.PORT || 8000;
     server.listen(PORT, () =>
-      console.log(`${MessageMap.SUCESS.FILES.SERVER.RUN} ${PORT}`),
+      console.log(`${MessageMap.SUCCESS.FILES.SERVER.RUN} ${PORT}`),
     );
   } catch (err) {
     console.error(MessageMap.ERROR.FILES.SERVER.FAILED, err);

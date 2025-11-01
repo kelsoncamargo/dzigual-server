@@ -1,22 +1,27 @@
 /**
- * login
+ * @fileoverview Controller function for user login: processes credentials, generates tokens, sets auth cookies, and responds with success or error.
  *
- * Authenticates a user, issues JWT tokens via `authService.login`, and sets auth cookies.
+ * @module auth-login-controller
+ * @version 1.0.0
  *
- * Request body fields:
- * - email: string
- * - Password: string (note the capital "P")
+ * ### Key Setup
+ * - Extracts email/password from request body.
+ * - Calls authService.login to validate and generate tokens.
+ * - Sets cookies via cookies.setAuthCookies.
+ * - Responds with success message or 400 error.
  *
- * @param {Request}  request - Express request object with credentials in `body`.
- * @param {Response} response - Express response object.
- * @returns {Promise<Response>}
- *   On success, sets auth cookies for access and refresh tokens and responds with:
- *   { message: MessageMap.SUCCESS.AUTH.LOGIN }.
- * @throws {Error}
- *   Responds with 400 Bad Request and `{ message: string }` on failure.
+ * ### Functions
+ * - login(request, response): Handles login request asynchronously.
+ *
+ * @param {Request} request - Express request with body containing email and password.
+ * @param {Response} response - Express response for sending status and message.
+ * @returns {Promise<void>} Sends response with message.
+ *
+ * @throws Error Responds with 400 and error message on failure.
+ *
  */
 
-import { setAuthCookies } from '../../../shared/cookies/cookies';
+import { cookies } from '../../../shared/cookies/cookies';
 import { MessageMap } from '../../../shared/messages';
 import { authService } from '../service/auth.service';
 import { Request, Response } from 'express';
@@ -30,15 +35,15 @@ export const login = async (request: Request, response: Response) => {
       password: reqData.Password,
     };
 
-    const tokens = await authService.login({
+    const { newToken, newRefreshToken } = await authService.login({
       email: credentials.email,
       password: credentials.password,
     });
 
-    setAuthCookies(response, tokens.token, tokens.refreshToken);
+    cookies.setAuthCookies(response, newToken, newRefreshToken);
 
     return response.send({
-      message: MessageMap.SUCCESS.AUTH.LOGIN,
+      message: `login_${MessageMap.SUCCESS}`,
     });
   } catch (error: any) {
     return response.status(400).send({ message: error.message });

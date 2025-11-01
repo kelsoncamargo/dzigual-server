@@ -32,7 +32,7 @@ export const logout = async (
     await token.revokeRefreshToken(logoutData.refreshToken);
 
     return {
-      message: `logout_${MessageMap.SUCESS.DEFAULT.SUCESS}`,
+      message: `logout_${MessageMap.SUCCESS.DEFAULT.SUCCESS}`,
     };
   } catch (err) {
     throw new Error(`database_${MessageMap.ERROR.DEFAULT.INTERNAL_ERROR}`);
