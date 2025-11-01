@@ -1,18 +1,21 @@
 /**
- * @module repository.user
- * @description Creates a new User record in the database.
+ * @fileoverview Repository function to create a new user in the database using Prisma.
  *
- * @param {IUserCreate} params
- *   - `email` (string): User's email address
- *   - `name` (string): User's first name
- *   - `lastName` (string): User's last name
- *   - `password` (string): User's hashed password
- *   - `role` (Role): User's assigned role
- *   - `phoneNumber` (string | undefined): User's phone number (optional)
- * @returns {Promise<User>}
- *   - Resolves with the newly created User record
- * @throws {Error}
- *   - Throws MessageMap.ERROR.DATABASE on any database failure
+ * @module user-create-repo
+ * @version 1.0.0
+ *
+ * ### Key Setup
+ * - Creates user record with provided data, setting isActive to true.
+ * - Throws custom error on database failure.
+ *
+ * ### Functions
+ * - create({ email, name, lastName, password, phoneNumber }): Asynchronously creates and returns the user.
+ *
+ * @param {IUserCreate} { email, name, lastName, password, phoneNumber } - User creation input data.
+ * @returns {Promise<User>} The created user object.
+ *
+ * @throws Error On database creation failure, with custom message.
+ *
  */
 
 import { User } from '@prisma/client';
@@ -25,7 +28,6 @@ export const create = async ({
   name,
   lastName,
   password,
-  role,
   phoneNumber,
 }: IUserCreate): Promise<User> => {
   try {
@@ -36,11 +38,10 @@ export const create = async ({
         lastName,
         phoneNumber,
         password,
-        role,
         isActive: true,
       },
     });
   } catch (err) {
-    throw new Error(`${MessageMap.ERROR.DATABASE}`);
+    throw new Error(`database_${MessageMap.ERROR.DEFAULT.INTERNAL_ERROR}`);
   }
 };
