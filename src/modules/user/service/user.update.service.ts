@@ -1,47 +1,50 @@
 /**
- * @module service.user
- * @description Updates a user's information after validating existence.
+ * @fileoverview Service function to update a user: checks existence, optionally hashes new password, and calls repository with defaults for unchanged fields.
  *
- * @param {IUserUpdate} params
- *   - `email` (string): Current user email to identify record
- *   - `newEmail` (string | undefined): New email address (optional)
- *   - `name` (string | undefined): New name (optional)
- *   - `lastName` (string | undefined): New last name (optional)
- *   - `password` (string | undefined): New password to hash (optional)
- *   - `phoneNumber` (string | null | undefined): New phone number (optional)
- *   - `role` (Role | undefined): New role (optional)
- * @returns {Promise<IUserUpdateDto>}
- *   - Resolves with the updated user record
- * @throws {Error}
- *   - MessageMap.ERROR.USER.NOT_FOUND if user doesn't exist
- *   - MessageMap.ERROR.DATABASE on any database failure
+ * @module user-update-service
+ * @version 1.0.0
+ *
+ * ### Key Setup
+ * - Verifies user existence by email.
+ * - Hashes new password if provided using password.encryptPassword.
+ * - Updates via updateRepo, using existing values for unspecified fields.
+ *
+ * ### Functions
+ * - update({ email, newEmail, name, lastName, password, phoneNumber }): Asynchronously updates user and returns DTO.
+ *
+ * @param {IUserUpdate} { email, newEmail, name, lastName, password, phoneNumber } - User update input data.
+ * @returns {Promise<IUserUpdateDto>} The updated user DTO.
+ *
+ * @throws Error If user not found or update fails, with custom message.
+ *
  */
 
 import { MessageMap } from '../../../shared/messages';
+import { password } from '../../../shared/password/passowrd';
 import {
   IUserUpdate,
   IUserUpdateDto,
 } from '../interface/user.update.interface';
 import { get as getRepo } from '../repo/user.get.repo';
 import { update as updateRepo } from '../repo/user.update.repo';
-import { encryptPassword } from '../../../shared/password';
 
 export const update = async ({
   email,
   newEmail,
   name,
   lastName,
-  password,
+  password: userPassword,
   phoneNumber,
-  role,
 }: IUserUpdate): Promise<IUserUpdateDto> => {
   const user = await getRepo({ email });
 
   if (!user) {
-    throw new Error(MessageMap.ERROR.USER.NOT_FOUND);
+    throw new Error(`user_${MessageMap.ERROR.DEFAULT.NOT_FOUND}`);
   }
 
-  const hashedPassword = password ? await encryptPassword(password) : undefined;
+  const hashedPassword = userPassword
+    ? await password.encryptPassword(userPassword)
+    : undefined;
 
   return await updateRepo({
     email,
@@ -50,6 +53,5 @@ export const update = async ({
     lastName: lastName ?? user.lastName,
     password: hashedPassword ?? user.password,
     phoneNumber: phoneNumber ?? user.phoneNumber,
-    role: role ?? user.role,
   });
 };
