@@ -1,40 +1,26 @@
 /**
- * UserService
+ * @fileoverview Service class aggregating user CRUD functions (create, get, update, remove) and exporting a singleton instance.
  *
- * Service class responsible for handling business logic related to User operations.
+ * @module user-service
+ * @version 1.0.0
  *
- * @method create(params: ICreateUser): Promise<IRegisterUserDto>
- *   – Creates a new user after verifying no duplicate exists.
+ * ### Key Setup
+ * - Aggregates user service functions into a class for centralized access.
  *
- * @method get(params: IGetUser): Promise<IGetUserDto>
- *   – Authenticates and retrieves a user by email, password, and company.
- * 
- *  * @method getAll(params: IGeAlltUser): Promise<IGetAllUserDto>
- *   – Authenticates and retrieves a user by company.
+ * ### Class
+ * - UserService: Class with methods for create, get, update, and remove.
  *
- * @method update(params: IUpdateUser): Promise<IUserUpdateDto | Error>
- *   – Updates an existing user’s details.
- *
- * @method suspend(params: IUserSuspend): Promise<IUserSuspendDto>
- *   – Suspends a user by updating their active status.
- *
- * @method remove(params: IRemoveUser): Promise<IRemoveUserDto>
- *   – Deletes a user by email and company document ID.
  */
 
-import { create } from "./user.create.service";
-import { get } from "./user.get.service";
-import { getAll } from "./user.getAll.service";
-import { remove } from "./user.remove.service";
-import { suspend } from "./user.suspend.service";
-import { update } from "./user.update.service";
+import { create } from './user.create.service';
+import { get } from './user.get.service';
+import { remove } from './user.remove.service';
+import { update } from './user.update.service';
 
 class UserService {
   create = create;
   get = get;
-  getAll = getAll;
   update = update;
-  suspend = suspend;
   remove = remove;
 }
 
