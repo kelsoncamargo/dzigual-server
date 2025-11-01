@@ -1,42 +1,42 @@
 /**
- * authenticate
+ * @fileoverview Express middleware to authenticate requests via JWT in 'accessToken' cookie, validate user activity, and attach payload to req.payload.
  *
- * Express middleware that verifies a JWT from the `accessToken` cookie, 
- * ensures the user is active, and attaches the decoded payload to `req.user`.
+ * @module auth-middleware
+ * @version 1.0.0
  *
- * @param {AuthRequest} req     – Request object extended with `user: IJwtPayload`.
- *                               Expects `req.cookies.accessToken` to contain the JWT.
- * @param {Response}    res     – Express response object.
- * @param {NextFunction} next   – Next middleware function in the stack.
- * @returns {Promise<void>}
- *   – Calls `next()` if the token is valid and the user is active.
- * @throws {Error}
- *   – Responds with 401 Unauthorized and 
- *     `{ message: MessageMap.ERROR.MIDDLEWARE.AUTH.UNAUTHORIZED }` if:
- *       • No token is present.
- *       • The token is invalid or expired.
- *       • The user is not found or is inactive.
+ * ### Key Setup
+ * - Extracts token from cookie, validates it, checks user active status.
+ * - Attaches decoded payload to req.payload if valid.
+ *
+ * ### Functions
+ * - authenticate(req, res, next): Authenticates request and calls next() on success.
+ *
+ * @param {Request} req - Express request with cookies.accessToken.
+ * @param {Response} res - Express response for error handling.
+ * @param {NextFunction} next - Next middleware function.
+ * @returns {Promise<void>} Calls next() if authenticated.
+ *
+ * @throws Error Responds with 401 and custom message if token missing, invalid, or user inactive.
  */
 
-
-import { Request, Response, NextFunction } from "express";
-import { validateToken } from "../service/auth.service";
-import { MessageMap } from "../../../shared/messages";
+import { Request, Response, NextFunction } from 'express';
+import { validadeUserByToken } from '../service/auth.service';
+import { MessageMap } from '../../../shared/messages';
 
 export async function authenticate(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   try {
     const token = req.cookies?.accessToken;
     if (!token) {
       return res
         .status(401)
-        .json({ message: MessageMap.ERROR.AUTH.NOT_FOUND });
+        .json({ message: `${MessageMap.ERROR.DEFAULT.UNAUTHORIZED}_token` });
     }
 
-    const payload = await validateToken(token);
+    const payload = await validadeUserByToken(token);
 
     req.payload = payload;
 
@@ -44,6 +44,6 @@ export async function authenticate(
   } catch {
     return res
       .status(401)
-      .json({ message: MessageMap.ERROR.AUTH.UNAUTHORIZED });
+      .json({ message: MessageMap.ERROR.DEFAULT.UNAUTHORIZED });
   }
 }

@@ -22,7 +22,9 @@ import { token } from '../../../shared/token/token.jwt';
 import { IJwtPayload } from '../../../shared/token/token.jwt.interface';
 import { MessageMap } from '../../../shared/messages';
 
-export async function validateToken(hashToken: string): Promise<IJwtPayload> {
+export async function validadeUserByToken(
+  hashToken: string,
+): Promise<IJwtPayload> {
   const payload = token.validateToken(hashToken);
 
   const user = await database.user.findUnique({
