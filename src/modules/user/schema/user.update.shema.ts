@@ -45,7 +45,6 @@ export function update(): object {
           'string.base': 'Phone number must be a string',
         }),
       })
-      // require at least one updatable field besides the identifying `email`
       .or('newEmail', 'fullName', 'password', 'phoneNumber')
       .messages({
         'object.missing': 'At least one field must be provided for update',

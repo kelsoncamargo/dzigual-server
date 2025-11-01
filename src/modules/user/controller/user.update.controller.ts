@@ -32,8 +32,7 @@ export const update = async (
     const user = await updateService({
       email: req.payload.email,
       newEmail: req.body.newEmail,
-      name: req.body.name,
-      lastName: req.body.lastName,
+      fullName: req.body.fullName,
       password: req.body.password,
       phoneNumber: req.body.phoneNumber,
     });

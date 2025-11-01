@@ -30,8 +30,7 @@ export const create = async (
 ): Promise<Response> => {
   try {
     const user = await createService({
-      name: req.body.name,
-      lastName: req.body.lastName,
+      fullName: req.body.fullName,
       email: req.body.email,
       password: req.body.password,
       phoneNumber: req.body.phoneNumber,
