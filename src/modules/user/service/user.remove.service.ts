@@ -1,14 +1,22 @@
 /**
- * @module service.user
- * @description Deletes a user by email address.
+ * @fileoverview Service function to remove a user by email: checks existence, calls repository to delete, and returns success DTO or throws error.
  *
- * @param {IUserRemove} params
- *   - `email` (string): User's email address to delete
- * @returns {Promise<IUserRemoveDto>}
- *   - Resolves with `{ message: string }` containing success message
- * @throws {Error}
- *   - MessageMap.ERROR.USER.NOT_FOUND if user doesn't exist
- *   - MessageMap.ERROR.DATABASE on any database failure
+ * @module user-remove-service
+ * @version 1.0.0
+ *
+ * ### Key Setup
+ * - Checks if user exists via getRepo.
+ * - Removes user via removeRepo if found.
+ * - Returns success message DTO.
+ *
+ * ### Functions
+ * - remove({ email }): Asynchronously removes user and returns DTO.
+ *
+ * @param {IUserRemove} { email } - User removal input with email.
+ * @returns {Promise<IUserRemoveDto>} DTO with success message.
+ *
+ * @throws Error If user not found, with custom message.
+ *
  */
 
 import { remove as removeRepo } from '../repo/user.remove.repo';
@@ -25,10 +33,10 @@ export const remove = async ({
   const user = await getRepo({ email });
 
   if (!user) {
-    throw new Error(MessageMap.ERROR.USER.NOT_FOUND);
+    throw new Error(`user_${MessageMap.ERROR.DEFAULT.NOT_FOUND}`);
   }
 
   await removeRepo({ email });
 
-  return { message: MessageMap.SUCCESS.USER.REMOVED };
+  return { message: `remove_${MessageMap.SUCCESS.DEFAULT.SUCCESS}` };
 };
