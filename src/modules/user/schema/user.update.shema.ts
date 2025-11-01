@@ -6,10 +6,8 @@
  *
  * @returns {object}
  *   - Celebrate validation object containing Joi schemas for:
- *     - email (string): current email — required
  *     - newEmail (string): new email address, optional, must be a valid email and different from `email`
- *     - name (string): 3-30 characters, optional
- *     - lastName (string): 3-30 characters, optional
+ *     - fullName (string): 8-50 characters, required
  *     - password (string): minimum 6 characters, optional
  *     - phoneNumber (string): optional
  * @throws {400 Bad Request}
@@ -32,16 +30,10 @@ export function update(): object {
             'any.invalid': 'New email must be different from current email',
           }),
 
-        name: Joi.string().trim().min(3).max(30).optional().messages({
-          'string.base': 'Name must be a string',
+        fullName: Joi.string().trim().min(8).max(50).required().messages({
           'string.min': 'Name must be at least 3 characters',
           'string.max': 'Name must be no more than 30 characters',
-        }),
-
-        lastName: Joi.string().trim().min(3).max(30).optional().messages({
-          'string.base': 'Last name must be a string',
-          'string.min': 'Last name must be at least 3 characters',
-          'string.max': 'Last name must be no more than 30 characters',
+          'any.required': 'Name is required',
         }),
 
         password: Joi.string().trim().min(6).max(18).optional().messages({
@@ -54,7 +46,7 @@ export function update(): object {
         }),
       })
       // require at least one updatable field besides the identifying `email`
-      .or('newEmail', 'name', 'password', 'lastName', 'phoneNumber')
+      .or('newEmail', 'fullName', 'password', 'phoneNumber')
       .messages({
         'object.missing': 'At least one field must be provided for update',
       }),

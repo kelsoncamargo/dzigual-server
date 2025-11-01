@@ -25,8 +25,7 @@ import { IUserCreate } from '../interface/user.create.interface';
 
 export const create = async ({
   email,
-  name,
-  lastName,
+  fullName,
   password,
   phoneNumber,
 }: IUserCreate): Promise<User> => {
@@ -34,8 +33,7 @@ export const create = async ({
     return await database.user.create({
       data: {
         email,
-        name,
-        lastName,
+        fullName,
         phoneNumber,
         password,
         isActive: true,

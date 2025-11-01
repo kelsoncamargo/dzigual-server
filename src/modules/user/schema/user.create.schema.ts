@@ -7,8 +7,7 @@
  * @returns {object}
  *   - Celebrate validation object containing Joi schemas for:
  *     - email (string): valid email address, required
- *     - name (string): 3-30 characters, required
- *     - lastName (string): 3-30 characters, required
+ *     - fullName (string): 8-50 characters, required
  *     - password (string): 6-18 characters, required
  *     - phoneNumber (string): optional
  * @throws {400 Bad Request}
@@ -26,16 +25,10 @@ export function create(): object {
           'any.required': 'Email is required',
         }),
 
-        name: Joi.string().trim().min(3).max(30).required().messages({
+        fullName: Joi.string().trim().min(8).max(50).required().messages({
           'string.min': 'Name must be at least 3 characters',
           'string.max': 'Name must be no more than 30 characters',
           'any.required': 'Name is required',
-        }),
-
-        lastName: Joi.string().trim().min(3).max(30).required().messages({
-          'string.min': 'Last name must be at least 3 characters',
-          'string.max': 'Last name must be no more than 30 characters',
-          'any.required': 'Last name is required',
         }),
 
         password: Joi.string().trim().min(6).max(18).required().messages({

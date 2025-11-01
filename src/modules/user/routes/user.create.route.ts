@@ -15,8 +15,7 @@
  *
  */
 
-import express, { NextFunction, Request, Response } from 'express';
-import { authenticate } from '../../../middlewares/auth/middleware/auth.middleware';
+import express, { Request, Response } from 'express';
 import { userController } from '../controller/user.controller';
 import { celebrate } from 'celebrate';
 import { userSchema } from '../schema/user.schema';
@@ -25,9 +24,6 @@ const userCreateRouter = express.Router();
 
 userCreateRouter.post(
   '/',
-  async (req: Request, res: Response, next: NextFunction) => {
-    await authenticate(req, res, next);
-  },
 
   celebrate(userSchema.create()),
 

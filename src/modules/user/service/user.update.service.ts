@@ -31,8 +31,7 @@ import { update as updateRepo } from '../repo/user.update.repo';
 export const update = async ({
   email,
   newEmail,
-  name,
-  lastName,
+  fullName,
   password: userPassword,
   phoneNumber,
 }: IUserUpdate): Promise<IUserUpdateDto> => {
@@ -49,8 +48,7 @@ export const update = async ({
   return await updateRepo({
     email,
     newEmail: newEmail ?? user.email,
-    name: name ?? user.name,
-    lastName: lastName ?? user.lastName,
+    fullName: fullName ?? user.fullName,
     password: hashedPassword ?? user.password,
     phoneNumber: phoneNumber ?? user.phoneNumber,
   });

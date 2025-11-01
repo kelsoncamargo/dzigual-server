@@ -25,10 +25,9 @@ import { IUserUpdate } from '../interface/user.update.interface';
 
 export const update = async ({
   email,
-  name,
+  fullName,
   newEmail,
   password,
-  lastName,
   phoneNumber,
 }: IUserUpdate): Promise<User> => {
   try {
@@ -38,8 +37,7 @@ export const update = async ({
       },
       data: {
         email: newEmail,
-        name,
-        lastName,
+        fullName,
         phoneNumber,
         password,
       },

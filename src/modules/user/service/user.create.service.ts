@@ -30,8 +30,7 @@ import { password } from '../../../shared/password/passowrd';
 
 export const create = async ({
   email,
-  name,
-  lastName,
+  fullName,
   password: userPassword,
   phoneNumber,
 }: IUserCreate): Promise<IUserCreateDto> => {
@@ -45,8 +44,7 @@ export const create = async ({
 
   return await createRepo({
     email,
-    name,
-    lastName,
+    fullName,
     password: hashedPassword,
     phoneNumber,
   });

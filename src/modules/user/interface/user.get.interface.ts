@@ -5,8 +5,7 @@ export interface IUserGet {
 export interface IUserGetDto {
   id: string;
   email: string;
-  name: string;
-  lastName: string;
+  fullName: string;
   phoneNumber: string | null;
   isActive: boolean;
   createdAt: Date;
