@@ -1,18 +1,27 @@
 /**
- * refreshToken
+ * @fileoverview Controller function to handle refresh token: validates refresh token, generates new access token, updates cookie, and responds with success or error.
  *
- * Express handler to refresh the access token using a valid refresh token.
+ * @module auth-refresh-controller
+ * @version 1.0.0
  *
- * @param {Request}  request   – Express request object, expects `cookies.refreshToken` to contain the refresh token.
- * @param {Response} response  – Express response object.
- * @returns {Promise<Response>}
- *   – On success, clears the old accessToken cookie, sets a new one, and sends:
- *     • message: MessageMap.SUCCESS.AUTH.TOKEN
- * @throws {Error}
- *   – Responds with 400 Bad Request and `{ message: string }` if the refresh token is invalid or any error occurs.
+ * ### Key Setup
+ * - Extracts refreshToken from request cookies.
+ * - Calls authService.refreshToken to get new token.
+ * - Clears old accessToken cookie and sets new one via cookies.setAccessToken.
+ * - Responds with success message or 400 error.
+ *
+ * ### Functions
+ * - refreshToken(request, response): Handles refresh token request asynchronously.
+ *
+ * @param {Request} request - Express request with cookies.refreshToken.
+ * @param {Response} response - Express response for sending status and message.
+ * @returns {Promise<void>} Sends response with message.
+ *
+ * @throws Error Responds with 400 and error message on failure.
+ *
  */
 
-import { setAccessToken } from '../../../shared/cookies/cookies';
+import { cookies } from '../../../shared/cookies/cookies';
 import { MessageMap } from '../../../shared/messages';
 import { authService } from '../service/auth.service';
 import { Request, Response } from 'express';
@@ -27,10 +36,10 @@ export const refreshToken = async (request: Request, response: Response) => {
 
     response.clearCookie('accessToken');
 
-    setAccessToken(response, token);
+    cookies.setAccessToken(response, token);
 
     return response.send({
-      message: MessageMap.SUCCESS.AUTH.TOKEN,
+      message: `token_${MessageMap.SUCCESS.DEFAULT.CREATED}`,
     });
   } catch (error: any) {
     return response.status(400).send({ message: error.message });

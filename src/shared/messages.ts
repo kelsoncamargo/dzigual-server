@@ -25,6 +25,7 @@ export const MessageMap = {
   SUCCESS: {
     DEFAULT: {
       SUCCESS: 'operation_successful',
+      CREATED: 'create_with_successful',
     },
     FILES: {
       SERVER: {
