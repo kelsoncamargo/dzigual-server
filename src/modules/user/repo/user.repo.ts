@@ -1,41 +1,26 @@
 /**
- * UserRepository
+ * @fileoverview Repository class aggregating user CRUD functions (create, get, update, remove) and exporting a singleton instance.
  *
- * Repository class responsible for User persistence operations.
+ * @module user-repository
+ * @version 1.0.0
  *
- * @method create(params: ICreateUser): Promise<User>
- *   – Creates a new user in the database.
+ * ### Key Setup
+ * - Aggregates user repo functions into a class for centralized access.
  *
- * @method get(params: IGetUser): Promise<User | null>
- *   – Retrieves a user by email and company document ID.
- * 
- *  * @method getAll(params: IGetAllUser): Promise<IGetAllUser | null>
- *   – Retrieves all users by company document ID.
+ * ### Class
+ * - UserRepository: Class with methods for create, get, update, and remove.
  *
- * @method update(params: IUpdateUser): Promise<User>
- *   – Updates an existing user’s details.
- *
- * @method suspend(params: ISuspendUser): Promise<User>
- *   – Suspends a user by updating their active status.
- *
- * @method remove(params: IRemoveUser): Promise<User>
- *   – Deletes a user by email and company document ID.
  */
 
-
-import { suspend } from "../service/user.suspend.service";
-import { create } from "./user.create.repo";
-import { get } from "./user.get.repo";
-import { getAll } from "./user.getAll.repo";
-import { remove } from "./user.remove.repo";
-import { update } from "./user.update.repo";
+import { create } from './user.create.repo';
+import { get } from './user.get.repo';
+import { remove } from './user.remove.repo';
+import { update } from './user.update.repo';
 
 class UserRepository {
   create = create;
   get = get;
-  getAll = getAll;
   update = update;
-  suspend = suspend;
   remove = remove;
 }
 

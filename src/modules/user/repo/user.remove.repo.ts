@@ -1,13 +1,21 @@
 /**
- * @module repository.user
- * @description Deletes a user record from the database by email.
+ * @fileoverview Repository function to delete a user by email from the database using Prisma.
  *
- * @param {IUserRemove} params
- *   - `email` (string): User's email address to delete.
- * @returns {Promise<User>}
- *   - Resolves with the deleted User record.
- * @throws {Error}
- *   - Throws MessageMap.ERROR.DATABASE on any database failure (e.g., DB errors or record not found).
+ * @module user-remove-repo
+ * @version 1.0.0
+ *
+ * ### Key Setup
+ * - Deletes user record by email.
+ * - Throws custom error on database failure.
+ *
+ * ### Functions
+ * - remove({ email }): Asynchronously deletes and returns the user.
+ *
+ * @param {IUserRemove} { email } - User removal input with email.
+ * @returns {Promise<User>} The deleted user object.
+ *
+ * @throws Error On database deletion failure, with custom message.
+ *
  */
 
 import { User } from '@prisma/client';
@@ -23,6 +31,6 @@ export const remove = async ({ email }: IUserRemove): Promise<User> => {
       },
     });
   } catch (err) {
-    throw new Error(`${MessageMap.ERROR.DATABASE}`);
+    throw new Error(`database_${MessageMap.ERROR.DEFAULT.INTERNAL_ERROR}`);
   }
 };

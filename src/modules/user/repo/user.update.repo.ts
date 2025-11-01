@@ -1,19 +1,21 @@
 /**
- * @module repository.user
- * @description Updates an existing User record in the database.
+ * @fileoverview Repository function to update a user by email in the database using Prisma.
  *
- * @param {IUserUpdate} params
- *   - `email` (string): Current user email used to locate the record.
- *   - `newEmail` (string | undefined): New email address (optional).
- *   - `name` (string | undefined): New first name (optional).
- *   - `lastName` (string | undefined): New last name (optional).
- *   - `phoneNumber` (string | null | undefined): New phone number (optional).
- *   - `password` (string | undefined): New hashed password (optional).
- *   - `role` (Role | undefined): New role to assign (optional).
- * @returns {Promise<User>}
- *   - Resolves with the updated User record.
- * @throws {Error}
- *   - Throws MessageMap.ERROR.DATABASE on any database failure.
+ * @module user-update-repo
+ * @version 1.0.0
+ *
+ * ### Key Setup
+ * - Updates user record with provided data fields.
+ * - Throws custom error on database failure.
+ *
+ * ### Functions
+ * - update({ email, name, newEmail, password, lastName, phoneNumber }): Asynchronously updates and returns the user.
+ *
+ * @param {IUserUpdate} { email, name, newEmail, password, lastName, phoneNumber } - User update input data.
+ * @returns {Promise<User>} The updated user object.
+ *
+ * @throws Error On database update failure, with custom message.
+ *
  */
 
 import { User } from '@prisma/client';
@@ -26,7 +28,6 @@ export const update = async ({
   name,
   newEmail,
   password,
-  role,
   lastName,
   phoneNumber,
 }: IUserUpdate): Promise<User> => {
@@ -41,10 +42,9 @@ export const update = async ({
         lastName,
         phoneNumber,
         password,
-        role,
       },
     });
   } catch (err) {
-    throw new Error(`${MessageMap.ERROR.DATABASE}`);
+    throw new Error(`database_${MessageMap.ERROR.DEFAULT.INTERNAL_ERROR}`);
   }
 };
