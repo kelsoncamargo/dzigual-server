@@ -1,22 +1,20 @@
 /**
- * AuthRepository
+ * @fileoverview Repository class aggregating authentication functions (login, logout, refreshToken) and exporting a singleton instance.
  *
- * Repository class responsible for authentication persistence operations.
+ * @module auth-repository
+ * @version 1.0.0
  *
- * @method login(params: IAuthLogin): Promise<User | null>
- *   – Authenticates a user by document ID and email.
+ * ### Key Setup
+ * - Aggregates auth repo functions into a class for centralized access.
  *
- * @method logout(params: IAuthLogout): Promise<IAuthLogoutDto | null>
- *   – Revokes a user's refresh token and logs them out.
+ * ### Class
+ * - AuthRepository: Class with methods for login, logout, and refreshToken.
  *
- * @method refreshToken(params: IAuthRefreshToken): Promise<IJwtPayload>
- *   – Validates and decodes a JWT refresh token, returning its payload.
  */
 
-
-import { login } from "./auth.login.repo";
-import { logout } from "./auth.logout.repo";
-import { refreshToken } from "./auth.refreshToken.repo";
+import { login } from './auth.login.repo';
+import { logout } from './auth.logout.repo';
+import { refreshToken } from './auth.refreshToken.repo';
 
 class AuthRepository {
   login = login;

@@ -1,13 +1,21 @@
 /**
- * @module repository.auth
- * @description Authenticates a user by email.
+ * @fileoverview Service function to handle user login by retrieving user data via email from the repository.
  *
- * @param {IAuthLogin} params
- *   - `email` (string): User's email address
- * @returns {Promise<User | null>}
- *   - Resolves with the User record if found, otherwise null
- * @throws {Error}
- *   - Throws MessageMap.ERROR.DATABASE on any database failure
+ * @module auth-login-service
+ * @version 1.0.0
+ *
+ * ### Key Setup
+ * - Queries user by email using userRepository.
+ * - Returns user if found; throws error on failure.
+ *
+ * ### Functions
+ * - login({ email }): Asynchronously fetches user by email.
+ *
+ * @param {IAuthLogin} { email } - Login input with email.
+ * @returns {Promise<User | null>} The user object if found, or null.
+ *
+ * @throws Error On database failure, with custom message.
+ *
  */
 
 import { User } from '@prisma/client';
@@ -19,6 +27,6 @@ export const login = async ({ email }: IAuthLogin): Promise<User | null> => {
   try {
     return await userRepository.get({ email });
   } catch (err) {
-    throw new Error(MessageMap.ERROR.DATABASE);
+    throw new Error(`${MessageMap.ERROR.DEFAULT.INTERNAL_ERROR}_database`);
   }
 };

@@ -23,6 +23,9 @@ export const MessageMap = {
     },
   },
   SUCESS: {
+    DEFAULT: {
+      SUCESS: 'operation_successful',
+    },
     FILES: {
       SERVER: {
         RUN: 'application_running_on_port',

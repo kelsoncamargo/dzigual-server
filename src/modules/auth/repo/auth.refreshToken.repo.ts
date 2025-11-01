@@ -1,31 +1,37 @@
 /**
- * refreshToken
+ * @fileoverview Service function to refresh authentication by validating a refresh token and returning its payload.
  *
- * Service method to validate a JWT refresh token and return its decoded payload.
+ * @module auth-refresh-service
+ * @version 1.0.0
  *
- * @param {IAuthRefreshToken} params
- *   – `refreshToken` (string): The JWT refresh token to validate.
- * @returns {Promise<IJwtPayload>}
- *   – Resolves with the decoded payload if the token is valid.
- * @throws {Error}
- *   – Throws MessageMap.ERROR.DATABASE on any validation or database error.
+ * ### Key Setup
+ * - Validates refresh token using token.validateRefreshToken.
+ * - Returns payload on success or throws error on failure.
+ *
+ * ### Functions
+ * - refreshToken(refreshTokenData): Asynchronously validates token and returns payload.
+ *
+ * @param {IAuthRefreshToken} refreshTokenData - Input with refreshToken.
+ * @returns {Promise<IJwtPayload>} The decoded payload from the refresh token.
+ *
+ * @throws Error On validation failure, with custom message.
  */
 
 import { MessageMap } from '../../../shared/messages';
+import { token } from '../../../shared/token/token.jwt';
 import { IJwtPayload } from '../../../shared/token/token.jwt.interface';
-import { validateRefreshToken } from '../../../shared/token/token.jwt.refresh';
 import { IAuthRefreshToken } from '../interface/auth.refreshToken.interface';
 
 export const refreshToken = async (
   refreshTokenData: IAuthRefreshToken,
 ): Promise<IJwtPayload> => {
   try {
-    const payloadRefreshToken = await validateRefreshToken(
+    const payloadRefreshToken = await token.validateRefreshToken(
       refreshTokenData.refreshToken,
     );
 
     return payloadRefreshToken;
   } catch (err) {
-    throw new Error(MessageMap.ERROR.DATABASE);
+    throw new Error(`database_${MessageMap.ERROR.DEFAULT.INTERNAL_ERROR}`);
   }
 };

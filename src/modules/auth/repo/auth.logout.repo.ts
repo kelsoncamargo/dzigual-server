@@ -1,18 +1,25 @@
 /**
- * logout
+ * @fileoverview Service function to handle user logout by revoking the refresh token.
  *
- * Service method to revoke the user's refresh token and log them out.
+ * @module auth-logout-service
+ * @version 1.0.0
  *
- * @param {IAuthLogout} logoutData
- *   – `token` (string): Refresh token to revoke.
- * @returns {Promise<IAuthLogoutDto>}
- *   – Resolves with `{ message: string }` containing MessageMap.SUCCESS.AUTH.LOGOUT.
- * @throws {Error}
- *   – Throws MessageMap.ERROR.DATABASE on any database failure.
+ * ### Key Setup
+ * - Revokes refresh token using token.revokeRefreshToken.
+ * - Returns success message or throws error on failure.
+ *
+ * ### Functions
+ * - logout(logoutData): Asynchronously revokes token and returns logout DTO.
+ *
+ * @param {IAuthLogout} logoutData - Logout input with refreshToken.
+ * @returns {Promise<IAuthLogoutDto>} DTO with success message.
+ *
+ * @throws Error On revocation failure, with custom message.
  */
 
 import { MessageMap } from '../../../shared/messages';
-import { revokeRefreshToken } from '../../../shared/token/token.jwt.refresh';
+import { token } from '../../../shared/token/token.jwt';
+
 import {
   IAuthLogout,
   IAuthLogoutDto,
@@ -22,12 +29,12 @@ export const logout = async (
   logoutData: IAuthLogout,
 ): Promise<IAuthLogoutDto> => {
   try {
-    await revokeRefreshToken(logoutData.refreshToken);
+    await token.revokeRefreshToken(logoutData.refreshToken);
 
     return {
-      message: MessageMap.SUCCESS.AUTH.LOGOUT,
+      message: `logout_${MessageMap.SUCESS.DEFAULT.SUCESS}`,
     };
   } catch (err) {
-    throw new Error(MessageMap.ERROR.DATABASE);
+    throw new Error(`database_${MessageMap.ERROR.DEFAULT.INTERNAL_ERROR}`);
   }
 };
