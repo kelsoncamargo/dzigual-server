@@ -12,15 +12,11 @@
  */
 
 import { create } from './user.create.schema';
-import { get } from './user.get.schema';
-import { remove } from './user.remove.schema';
 import { update } from './user.update.shema';
 
 class UserSchema {
   create = create;
-  get = get;
   update = update;
-  remove = remove;
 }
 
 export const userSchema = new UserSchema();

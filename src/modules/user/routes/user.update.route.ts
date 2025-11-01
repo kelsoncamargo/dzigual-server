@@ -1,41 +1,33 @@
 /**
- * UserUpdateRouter
+ * @fileoverview Express router for user update endpoint with authentication and validation.
  *
- * Express router for updating user details under an active company.
+ * @module user-update-router
+ * @version 1.0.0
  *
- * @route POST /user/update
- * @middleware authenticate                     – Verifies JWT and attaches `req.payload`.
- * @middleware requirecompanyActive             – Ensures the company is ACTIVE.
- * @middleware authorize("user:*")              – Checks user has any user-level permission.
- * @middleware celebrate(userSchema.update())   – Validates request body against the update schema.
+ * ### Key Setup
+ * - Defines router with PATCH / route.
+ * - Applies authenticate middleware for auth check.
+ * - Uses celebrate validation with userSchema.update().
+ * - Calls userController.update handler.
  *
- * @returns {void} Delegates to `userController.update` on success.
- * @throws {401} If authentication fails (invalid or missing token).
- * @throws {403} If the company is inactive.
- * @throws {400} If request validation fails or the controller throws an error.
+ * ### Routes
+ * - PATCH /: Updates user with auth, validation, and controller.
+ *
  */
 
 import express, { NextFunction, Request, Response } from 'express';
 import { authenticate } from '../../../middlewares/auth/middleware/auth.middleware';
-import { authorize } from '../../../middlewares/authorize/authorize.middleware';
 import { userController } from '../controller/user.controller';
 import { celebrate } from 'celebrate';
 import { userSchema } from '../schema/user.schema';
-import { requireCompanyActive } from '../../../middlewares/company/company.middleware';
 
-const companyUpdateRouter = express.Router();
+const userUpdateRouter = express.Router();
 
-companyUpdateRouter.post(
-  '/update',
+userUpdateRouter.patch(
+  '/',
   async (req: Request, res: Response, next: NextFunction) => {
     await authenticate(req, res, next);
   },
-
-  async (req: Request, res: Response, next: NextFunction) => {
-    await requireCompanyActive(req, res, next);
-  },
-
-  authorize('user:*'),
 
   celebrate(userSchema.update()),
 
@@ -44,4 +36,4 @@ companyUpdateRouter.post(
   },
 );
 
-export default companyUpdateRouter;
+export default userUpdateRouter;
