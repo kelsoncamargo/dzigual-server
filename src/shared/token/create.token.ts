@@ -6,7 +6,7 @@
  *
  * ### Key Setup
  * - Retrieves secret from isProduction() based on environment.
- * - Signs JWT with 15-minutes expiration and HS256 algorithm.
+ * - Signs JWT with 5-minutes expiration and HS256 algorithm.
  *
  * ### Functions
  * - createToken(payload): Generates and returns the signed JWT string.
@@ -25,7 +25,7 @@ export default function createToken(payload: IJwtPayload): string {
   const { secret } = isProduction();
 
   return jwt.sign(payload, secret, {
-    expiresIn: '15m',
+    expiresIn: '5m',
     algorithm: 'HS256',
   });
 }
