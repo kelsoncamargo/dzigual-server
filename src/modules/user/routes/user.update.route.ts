@@ -19,7 +19,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import { authenticate } from '../../../middlewares/auth/middleware/auth.middleware';
 import { userController } from '../controller/user.controller';
 import { celebrate } from 'celebrate';
-import { userSchema } from '../schema/user.schema';
+import { userSchema } from '../../resource/schema/resource.schema';
 
 const userUpdateRouter = express.Router();
 

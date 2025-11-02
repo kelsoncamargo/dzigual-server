@@ -18,7 +18,7 @@
 import express, { Request, Response } from 'express';
 import { userController } from '../controller/user.controller';
 import { celebrate } from 'celebrate';
-import { userSchema } from '../schema/user.schema';
+import { userSchema } from '../../resource/schema/resource.schema';
 
 const userCreateRouter = express.Router();
 
