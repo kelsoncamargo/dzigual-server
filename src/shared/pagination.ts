@@ -21,7 +21,7 @@
 
 export default function pagination({
   page = 1,
-  limit = 5,
+  limit = 1,
   data,
 }: {
   page?: number;
@@ -35,13 +35,12 @@ export default function pagination({
   totalPages: number;
 } {
   const total = data.length;
-  const start = Math.ceil(
-    ((page > 1 ? page : 1) - 1) * (limit > 5 ? limit : 5),
-  );
-  const paginateDate = data.slice(start, start + limit);
+  const interalLimit = limit > 0 ? limit : total;
+  const start = Math.ceil(((page > 1 ? page : 1) - 1) * interalLimit);
+  const paginateDate = data.slice(start, start + interalLimit);
 
   return {
-    limit,
+    limit: interalLimit,
     page,
     total,
     totalPages: Math.ceil(total / limit),

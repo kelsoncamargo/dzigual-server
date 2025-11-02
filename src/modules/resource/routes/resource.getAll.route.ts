@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { authenticate } from '../../../middlewares/auth/middleware/auth.middleware';
-import { getAll } from '../repo/resource.getAll.repo';
+import { resourceService } from '../service/resource.service';
 
 const resourceGetRouter = express.Router();
 
@@ -11,7 +11,9 @@ resourceGetRouter.get(
   },
 
   async (req: Request, res: Response) => {
-    const tmp = await getAll();
+    const tmp = await resourceService.getAll({
+      ...req.body,
+    });
 
     return res.status(200).json(tmp);
   },

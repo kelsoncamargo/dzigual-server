@@ -21,15 +21,12 @@
 import api from '../../../config/axios';
 import { EXTERNAL_APIS } from '../../../shared/externalApis';
 import { MessageMap } from '../../../shared/messages';
-import { IResourceGetDto } from '../interface/user.get.interface';
 
-export const getAll = async (): Promise<IResourceGetDto> => {
+export const getAll = async (): Promise<Array<Object>> => {
   try {
     const resource = await api.get(EXTERNAL_APIS.DOG_API.GET_ALL);
 
-    const breeds = Object.keys(resource.data.message);
-
-    return { breeds };
+    return resource.data.message;
   } catch (err) {
     throw new Error(`api_${MessageMap.ERROR.DEFAULT.INTERNAL_ERROR}`);
   }
