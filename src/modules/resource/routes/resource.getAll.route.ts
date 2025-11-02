@@ -18,7 +18,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { authenticate } from '../../../middlewares/auth/middleware/auth.middleware';
 import { resourceController } from '../controller/resource.controller';
-import { celebrate } from 'celebrate';
 
 const resourceGetRouter = express.Router();
 
