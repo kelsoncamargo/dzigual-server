@@ -25,32 +25,40 @@ import { IAuthLogin, IAuthLoginDto } from '../interface/auth.login.interface';
 import { authRepository } from '../repo/auth.repo';
 
 export const login = async (loginData: IAuthLogin): Promise<IAuthLoginDto> => {
-  const { email, password: userPassword } = loginData;
+  try {
+    const { email, password: userPassword } = loginData;
 
-  const user = await authRepository.login(email);
+    const user = await authRepository.login(email);
 
-  if (!user) {
-    throw new Error(`user_${MessageMap.ERROR.DEFAULT.NOT_FOUND}`);
+    if (!user) {
+      throw new Error(`user_${MessageMap.ERROR.DEFAULT.NOT_FOUND}`);
+    }
+
+    const validPassword = await password.decryptPassword(
+      userPassword,
+      user?.password,
+    );
+
+    if (!validPassword) {
+      console.log('test2');
+      throw new Error(MessageMap.ERROR.DEFAULT.UNAUTHORIZED);
+    }
+
+    const newToken = token.createToken({
+      id: user.id,
+      email: user.email,
+    });
+
+    const newRefreshToken = await token.createRefreshToken({
+      id: user.id,
+      email: user.email,
+    });
+
+    return {
+      newToken,
+      newRefreshToken,
+    };
+  } catch (error: any) {
+    throw new Error(error.message);
   }
-
-  const validPassword = password.decryptPassword(userPassword, user?.password);
-
-  if (!validPassword) {
-    throw new Error(MessageMap.ERROR.DEFAULT.UNAUTHORIZED);
-  }
-
-  const newToken = token.createToken({
-    id: user.id,
-    email: user.email,
-  });
-
-  const newRefreshToken = await token.createRefreshToken({
-    id: user.id,
-    email: user.email,
-  });
-
-  return {
-    newToken,
-    newRefreshToken,
-  };
 };

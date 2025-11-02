@@ -18,17 +18,19 @@
  *
  */
 
-import { User } from '@prisma/client';
 import { MessageMap } from '../../../shared/messages';
 import database from '../../../config/database';
-import { IUserCreate } from '../interface/user.create.interface';
+import {
+  IUserCreate,
+  IUserCreateDto,
+} from '../interface/user.create.interface';
 
 export const create = async ({
   email,
   fullName,
   password,
   phoneNumber,
-}: IUserCreate): Promise<User> => {
+}: IUserCreate): Promise<IUserCreateDto> => {
   try {
     return await database.user.create({
       data: {
@@ -37,6 +39,12 @@ export const create = async ({
         phoneNumber,
         password,
         isActive: true,
+      },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        phoneNumber: true,
       },
     });
   } catch (err) {

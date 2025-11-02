@@ -30,20 +30,17 @@ export const login = async (request: Request, response: Response) => {
   try {
     const reqData = request.body;
 
-    const credentials = {
-      email: reqData.email,
-      password: reqData.Password,
-    };
+    const { email, password } = reqData;
 
     const { newToken, newRefreshToken } = await authService.login({
-      email: credentials.email,
-      password: credentials.password,
+      email,
+      password,
     });
 
     cookies.setAuthCookies(response, newToken, newRefreshToken);
 
     return response.send({
-      message: `login_${MessageMap.SUCCESS}`,
+      message: `login_${MessageMap.SUCCESS.DEFAULT.SUCCESS}`,
     });
   } catch (error: any) {
     return response.status(400).send({ message: error.message });

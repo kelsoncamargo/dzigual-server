@@ -20,21 +20,8 @@
 import { MessageMap } from '../../../shared/messages';
 import { token } from '../../../shared/token/token.jwt';
 
-import {
-  IAuthLogout,
-  IAuthLogoutDto,
-} from '../interface/auth.logout.interface';
+import { IAuthLogout } from '../interface/auth.logout.interface';
 
-export const logout = async (
-  logoutData: IAuthLogout,
-): Promise<IAuthLogoutDto> => {
-  try {
-    await token.revokeRefreshToken(logoutData.refreshToken);
-
-    return {
-      message: `logout_${MessageMap.SUCCESS.DEFAULT.SUCCESS}`,
-    };
-  } catch (err) {
-    throw new Error(`database_${MessageMap.ERROR.DEFAULT.INTERNAL_ERROR}`);
-  }
+export const logout = async (logoutData: IAuthLogout): Promise<boolean> => {
+  return await token.revokeRefreshToken(logoutData.refreshToken);
 };

@@ -26,6 +26,6 @@ export const decryptPassword = async (remote: string, local?: string) => {
       throw new Error(`password_${MessageMap.ERROR.DEFAULT.NOT_FOUND}`);
     return await bcrypt.compare(remote, local);
   } catch (err) {
-    return new Error(`password_${MessageMap.ERROR.DEFAULT.COMPARISON_FAILED}`);
+    throw new Error(`password_${MessageMap.ERROR.DEFAULT.COMPARISON_FAILED}`);
   }
 };

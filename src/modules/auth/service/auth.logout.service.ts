@@ -19,15 +19,10 @@
  */
 
 import { MessageMap } from '../../../shared/messages';
-import {
-  IAuthLogout,
-  IAuthLogoutDto,
-} from '../interface/auth.logout.interface';
+import { IAuthLogout } from '../interface/auth.logout.interface';
 import { authRepository } from '../repo/auth.repo';
 
-export const logout = async (
-  logoutData: IAuthLogout,
-): Promise<IAuthLogoutDto> => {
+export const logout = async (logoutData: IAuthLogout): Promise<boolean> => {
   const { refreshToken } = logoutData;
 
   const logoutUser = await authRepository.logout({
@@ -35,7 +30,7 @@ export const logout = async (
   });
 
   if (!logoutUser) {
-    return new Error(`${MessageMap.ERROR.DEFAULT.INVALID}_user`);
+    throw new Error(`${MessageMap.ERROR.DEFAULT.INVALID}_user`);
   }
 
   return logoutUser;

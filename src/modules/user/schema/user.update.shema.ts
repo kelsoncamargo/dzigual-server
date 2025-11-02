@@ -31,9 +31,9 @@ export function update(): object {
           }),
 
         fullName: Joi.string().trim().min(8).max(50).required().messages({
-          'string.min': 'Name must be at least 3 characters',
-          'string.max': 'Name must be no more than 30 characters',
-          'any.required': 'Name is required',
+          'string.min': 'fullName must be at least 3 characters',
+          'string.max': 'fullName must be no more than 30 characters',
+          'any.required': 'fullName is required',
         }),
 
         password: Joi.string().trim().min(6).max(18).optional().messages({

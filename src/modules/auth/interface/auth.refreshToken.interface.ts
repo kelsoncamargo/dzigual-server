@@ -1,6 +1,5 @@
-
 export interface IAuthRefreshToken {
-  refreshToken: string
+  refreshToken: string;
 }
 
 export interface IAuthRefreshTokenDto {

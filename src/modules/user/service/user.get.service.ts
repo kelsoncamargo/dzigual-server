@@ -28,5 +28,13 @@ export const get = async ({ email }: IUserGet): Promise<IUserGetDto> => {
     throw new Error(`user_${MessageMap.ERROR.DEFAULT.NOT_FOUND}`);
   }
 
-  return user;
+  return {
+    id: user.id,
+    email: user.email,
+    fullName: user.fullName,
+    phoneNumber: user.phoneNumber,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+    isActive: user.isActive,
+  };
 };

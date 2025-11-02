@@ -37,7 +37,7 @@ export const logout = async (request: Request, response: Response) => {
     cookies.clearAuthCookies(response);
 
     return response.send({
-      message: `logout_${MessageMap.SUCCESS.DEFAULT.SUCCESS}`,
+      message: `logout_${MessageMap.SUCCESS.DEFAULT.CREATED}`,
     });
   } catch (error: any) {
     return response.status(400).send({ message: error.message });

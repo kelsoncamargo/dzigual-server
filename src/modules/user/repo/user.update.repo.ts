@@ -18,10 +18,12 @@
  *
  */
 
-import { User } from '@prisma/client';
 import { MessageMap } from '../../../shared/messages';
 import database from '../../../config/database';
-import { IUserUpdate } from '../interface/user.update.interface';
+import {
+  IUserUpdate,
+  IUserUpdateDto,
+} from '../interface/user.update.interface';
 
 export const update = async ({
   email,
@@ -29,7 +31,7 @@ export const update = async ({
   newEmail,
   password,
   phoneNumber,
-}: IUserUpdate): Promise<User> => {
+}: IUserUpdate): Promise<IUserUpdateDto> => {
   try {
     return await database.user.update({
       where: {
@@ -40,6 +42,14 @@ export const update = async ({
         fullName,
         phoneNumber,
         password,
+      },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        phoneNumber: true,
+        updatedAt: true,
+        createdAt: true,
       },
     });
   } catch (err) {

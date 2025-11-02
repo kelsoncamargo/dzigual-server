@@ -18,10 +18,10 @@
  *
  */
 
-import { User } from '@prisma/client';
 import { MessageMap } from '../../../shared/messages';
 import database from '../../../config/database';
-import { IUserGet } from '../interface/user.get.interface';
+import { IUserGet, IUserGetDto } from '../interface/user.get.interface';
+import { User } from 'prisma/prisma-client';
 
 export const get = async ({ email }: IUserGet): Promise<User | null> => {
   try {
