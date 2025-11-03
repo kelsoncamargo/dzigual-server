@@ -5,12 +5,13 @@
  * @version 1.0.0
  *
  * ### Key Setup
- * - Imports Express and the specific GET router for resources.
+ * - Imports Express and the specific routers for getting all resources and getting a single resource.
  * - Creates a main router instance.
- * - Mounts the resource GET router at the root path.
+ * - Mounts both the get-all and get-single routers at the root path to handle respective sub-routes.
  *
  * ### Routes
- * - Uses '/': Mounts the resourceGetRouter to handle all sub-routes starting from the root.
+ * - Uses '/': Mounts resourceGetAllRouter to handle routes for retrieving all resources.
+ * - Uses '/': Mounts resourceGetRouter to handle routes for retrieving a single resource.
  *
  */
 

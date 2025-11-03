@@ -1,20 +1,24 @@
 /**
- * @fileoverview Service class aggregating resource functions (get, getAll) and exporting a singleton instance.
+ * @fileoverview Service class aggregating resource retrieval operations.
  *
  * @module resource-service
  * @version 1.0.0
  *
  * ### Key Setup
- * - Aggregates resource service functions into a class for centralized access.
+ * - Imports the get and getAll functions from their respective service files.
+ * - Defines a class ResourceService that assigns the imported functions as methods.
+ * - Creates and exports an instance of ResourceService for use in controllers or other services.
  *
  * ### Class
- * - ResourceService: Class with methods for get and getAll.
+ * - ResourceService: A class containing methods for retrieving a single resource by ID and all resources with pagination.
  *
  */
 
+import { get } from './resource.get.service';
 import { getAll } from './resource.getAll.service';
 
 class ResourceService {
+  get = get;
   getAll = getAll;
 }
 

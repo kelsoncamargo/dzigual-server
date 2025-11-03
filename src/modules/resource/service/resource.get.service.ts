@@ -1,3 +1,24 @@
+/**
+ * @fileoverview Utility function for retrieving details of a specific breed by ID.
+ *
+ * @module resource-get
+ * @version 1.0.0
+ *
+ * ### Key Setup
+ * - Fetches all breed data from the resource repository.
+ * - Normalizes the provided ID to lowercase for case-insensitive lookup.
+ * - Checks if the breed exists in the data; throws an error if not found.
+ * - Retrieves the list of countries associated with the breed.
+ * - If no countries are found, returns a message indicating not found; otherwise, returns the breed and countries.
+ *
+ * ### Functions
+ * - get(id): Asynchronously retrieves breed details by ID.
+ *
+ * @param {string} id - The breed ID to retrieve (case-insensitive).
+ * @returns {Promise<object>} Promise resolving to an object containing the breed name and either countries array or a not found message.
+ *
+ */
+
 import { MessageMap } from '../../../shared/messages';
 import { resourceRepository } from '../repo/resource.repo';
 
@@ -13,7 +34,7 @@ export const get = async (id: string): Promise<object> => {
   if (countries.length === 0) {
     return {
       breed: normalizedId,
-      message: 'Não existe país cadastrado para esta raça.',
+      message: `${MessageMap.ERROR.DEFAULT.NOT_FOUND}_country_race`,
     };
   }
 
