@@ -15,9 +15,12 @@
  */
 
 import express from 'express';
-import resourceGetRouter from './resource.getAll.route';
+import resourceGetAllRouter from './resource.getAll.route';
+import resourceGetRouter from './resource.get.route';
 
 const resourceRouter = express.Router();
+
+resourceRouter.use('/', resourceGetAllRouter);
 
 resourceRouter.use('/', resourceGetRouter);
 

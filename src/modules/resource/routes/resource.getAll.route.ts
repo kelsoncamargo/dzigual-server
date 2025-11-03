@@ -19,9 +19,9 @@ import express, { NextFunction, Request, Response } from 'express';
 import { authenticate } from '../../../middlewares/auth/middleware/auth.middleware';
 import { resourceController } from '../controller/resource.controller';
 
-const resourceGetRouter = express.Router();
+const resourceGetAllRouter = express.Router();
 
-resourceGetRouter.get(
+resourceGetAllRouter.get(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
     await authenticate(req, res, next);
@@ -32,4 +32,4 @@ resourceGetRouter.get(
   },
 );
 
-export default resourceGetRouter;
+export default resourceGetAllRouter;

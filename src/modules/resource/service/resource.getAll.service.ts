@@ -23,8 +23,12 @@ import { IResourceGet } from '../interface/user.getAll.interface';
 import { resourceRepository } from '../repo/resource.repo';
 import pagination from '../../../shared/pagination';
 
-export const getAll = async ({ page, limit }: IResourceGet): Promise<any> => {
+export const getAll = async ({
+  page,
+  limit,
+}: IResourceGet): Promise<object> => {
   const fullDataBreeds = await resourceRepository.getAll();
+
   const fullBreeds = Object.keys(fullDataBreeds);
 
   const breedsFiltered = pagination({ page, limit, data: fullBreeds });

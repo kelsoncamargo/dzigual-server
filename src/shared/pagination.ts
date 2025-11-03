@@ -5,7 +5,7 @@
  * @version 1.0.0
  *
  * ### Key Setup
- * - Defaults page to 1 and limit to 5.
+ * - Defaults page to 1 and limit to 1.
  * - Calculates start index and slices data array.
  * - Computes total pages based on data length and limit.
  *
@@ -13,7 +13,7 @@
  * - pagination({ page, limit, data }): Returns paginated items and metadata.
  *
  * @param {number} [page=1] - The current page number (starts from 1).
- * @param {number} [limit=5] - The number of items per page.
+ * @param {number} [limit=1] - The number of items per page.
  * @param {Array<string>} data - The array of strings to paginate.
  * @returns {{ items: Array<string>, total: number, page: number, limit: number, totalPages: number }} Paginated result object.
  *
