@@ -36,6 +36,7 @@ export const get = async (id: string): Promise<object> => {
   if (countries.length === 0) {
     return {
       breed: normalizedId,
+      imgUrl: `${EXTERNAL_APIS.DOG_API.BASE_URL}/breed/${normalizedId}/images/random`,
       message: `${MessageMap.ERROR.DEFAULT.NOT_FOUND}_country_race`,
     };
   }
