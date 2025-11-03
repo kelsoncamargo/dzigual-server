@@ -1,5 +1,5 @@
 export interface IUserGet {
-  email: string;
+  id: string;
 }
 
 export interface IUserGetDto {

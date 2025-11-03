@@ -1,5 +1,5 @@
 export interface IUserUpdate {
-  email: string;
+  id: string;
   newEmail?: string;
   password?: string;
   fullName: string;

@@ -30,7 +30,7 @@ export function update(): object {
             'any.invalid': 'New email must be different from current email',
           }),
 
-        fullName: Joi.string().trim().min(8).max(50).required().messages({
+        fullName: Joi.string().trim().min(8).max(50).optional().messages({
           'string.min': 'fullName must be at least 3 characters',
           'string.max': 'fullName must be no more than 30 characters',
           'any.required': 'fullName is required',
@@ -47,7 +47,8 @@ export function update(): object {
       })
       .or('newEmail', 'fullName', 'password', 'phoneNumber')
       .messages({
-        'object.missing': 'At least one field must be provided for update',
+        'object.missing':
+          'At least one field newEmail, fullName, password or phoneNumber must be provided for update',
       }),
   };
 }

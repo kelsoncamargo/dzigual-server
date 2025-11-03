@@ -20,13 +20,13 @@
  */
 
 import { create as createRepo } from '../repo/user.create.repo';
-import { get as getRepo } from '../repo/user.get.repo';
 import {
   IUserCreate,
   IUserCreateDto,
 } from '../interface/user.create.interface';
 import { MessageMap } from '../../../shared/messages';
 import { password } from '../../../shared/password/passowrd';
+import { userRepository } from '../repo/user.repo';
 
 export const create = async ({
   email,
@@ -34,7 +34,7 @@ export const create = async ({
   password: userPassword,
   phoneNumber,
 }: IUserCreate): Promise<IUserCreateDto> => {
-  const userExists = await getRepo({ email });
+  const userExists = await userRepository.getByEmail(email);
 
   if (userExists) {
     throw new Error(`email_${MessageMap.ERROR.DEFAULT.IN_USE}`);

@@ -26,7 +26,7 @@ import {
 } from '../interface/user.update.interface';
 
 export const update = async ({
-  email,
+  id,
   fullName,
   newEmail,
   password,
@@ -35,7 +35,7 @@ export const update = async ({
   try {
     return await database.user.update({
       where: {
-        email,
+        id,
       },
       data: {
         email: newEmail,

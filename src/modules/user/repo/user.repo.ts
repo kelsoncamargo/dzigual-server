@@ -14,12 +14,14 @@
 
 import { create } from './user.create.repo';
 import { get } from './user.get.repo';
+import { getByEmail } from './user.getByEmail';
 import { remove } from './user.remove.repo';
 import { update } from './user.update.repo';
 
 class UserRepository {
   create = create;
   get = get;
+  getByEmail = getByEmail;
   update = update;
   remove = remove;
 }

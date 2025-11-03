@@ -25,6 +25,10 @@ import { authRepository } from '../repo/auth.repo';
 export const logout = async (logoutData: IAuthLogout): Promise<boolean> => {
   const { refreshToken } = logoutData;
 
+  if (!refreshToken) {
+    throw new Error(`${MessageMap.ERROR.DEFAULT.NOT_FOUND}_token`);
+  }
+
   const logoutUser = await authRepository.logout({
     refreshToken,
   });

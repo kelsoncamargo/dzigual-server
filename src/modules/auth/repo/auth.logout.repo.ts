@@ -17,7 +17,6 @@
  * @throws Error On revocation failure, with custom message.
  */
 
-import { MessageMap } from '../../../shared/messages';
 import { token } from '../../../shared/token/token.jwt';
 
 import { IAuthLogout } from '../interface/auth.logout.interface';

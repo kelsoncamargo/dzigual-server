@@ -27,16 +27,14 @@ import {
 } from '../interface/user.remove.interface';
 import { MessageMap } from '../../../shared/messages';
 
-export const remove = async ({
-  email,
-}: IUserRemove): Promise<IUserRemoveDto> => {
-  const user = await getRepo({ email });
+export const remove = async ({ id }: IUserRemove): Promise<IUserRemoveDto> => {
+  const user = await getRepo({ id });
 
   if (!user) {
     throw new Error(`user_${MessageMap.ERROR.DEFAULT.NOT_FOUND}`);
   }
 
-  await removeRepo({ email });
+  await removeRepo({ id });
 
   return { message: `remove_${MessageMap.SUCCESS.DEFAULT.SUCCESS}` };
 };

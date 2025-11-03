@@ -1,5 +1,5 @@
 export interface IUserRemove {
-  email: string;
+  id: string;
 }
 
 export interface IUserRemoveDto {

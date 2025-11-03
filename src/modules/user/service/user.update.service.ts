@@ -25,20 +25,28 @@ import {
   IUserUpdate,
   IUserUpdateDto,
 } from '../interface/user.update.interface';
-import { get as getRepo } from '../repo/user.get.repo';
+import { userRepository } from '../repo/user.repo';
 import { update as updateRepo } from '../repo/user.update.repo';
 
 export const update = async ({
-  email,
+  id,
   newEmail,
   fullName,
   password: userPassword,
   phoneNumber,
 }: IUserUpdate): Promise<IUserUpdateDto> => {
-  const user = await getRepo({ email });
+  const user = await userRepository.get({ id });
 
   if (!user) {
     throw new Error(`user_${MessageMap.ERROR.DEFAULT.NOT_FOUND}`);
+  }
+
+  if (newEmail) {
+    const newEmailIsValid = await userRepository.getByEmail(newEmail);
+
+    if (newEmailIsValid) {
+      throw new Error(`email_${MessageMap.ERROR.DEFAULT.IN_USE}`);
+    }
   }
 
   const hashedPassword = userPassword
@@ -46,7 +54,7 @@ export const update = async ({
     : undefined;
 
   return await updateRepo({
-    email,
+    id,
     newEmail: newEmail ?? user.email,
     fullName: fullName ?? user.fullName,
     password: hashedPassword ?? user.password,

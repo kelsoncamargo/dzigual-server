@@ -30,7 +30,7 @@ export const remove = async (
 ): Promise<Response> => {
   try {
     await removeService({
-      email: req.payload.email,
+      id: req.payload.id,
     });
 
     return res.status(200).json({

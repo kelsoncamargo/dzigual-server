@@ -27,7 +27,7 @@ import { MessageMap } from '../../../shared/messages';
 export const get = async (req: Request, res: Response): Promise<Response> => {
   try {
     const user = await getService({
-      email: req.payload.email,
+      id: req.payload.id,
     });
 
     return res.status(200).json(user);

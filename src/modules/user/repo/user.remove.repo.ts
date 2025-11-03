@@ -23,11 +23,11 @@ import { MessageMap } from '../../../shared/messages';
 import database from '../../../config/database';
 import { IUserRemove } from '../interface/user.remove.interface';
 
-export const remove = async ({ email }: IUserRemove): Promise<User> => {
+export const remove = async ({ id }: IUserRemove): Promise<User> => {
   try {
     return await database.user.delete({
       where: {
-        email,
+        id,
       },
     });
   } catch (err) {

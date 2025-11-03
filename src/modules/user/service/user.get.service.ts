@@ -21,8 +21,8 @@ import { get as getRepo } from '../repo/user.get.repo';
 import { IUserGet, IUserGetDto } from '../interface/user.get.interface';
 import { MessageMap } from '../../../shared/messages';
 
-export const get = async ({ email }: IUserGet): Promise<IUserGetDto> => {
-  const user = await getRepo({ email });
+export const get = async ({ id }: IUserGet): Promise<IUserGetDto> => {
+  const user = await getRepo({ id });
 
   if (!user) {
     throw new Error(`user_${MessageMap.ERROR.DEFAULT.NOT_FOUND}`);

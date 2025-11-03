@@ -24,7 +24,7 @@ import { userRepository } from '../../user/repo/user.repo';
 
 export const login = async (email: string): Promise<User | null> => {
   try {
-    return await userRepository.get({ email });
+    return await userRepository.getByEmail(email);
   } catch (err) {
     throw new Error(`${MessageMap.ERROR.DEFAULT.INTERNAL_ERROR}_database`);
   }
