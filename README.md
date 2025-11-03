@@ -392,9 +392,9 @@ o padrão de MessageMap para mensagens padronizadas.
 - **Prisma**: ORM moderno, com migrações e seeds para gerenciamento de DB.
 - **TypeScript**: Utilizado para desenvolvimento com tipagem estática, reduzindo
   erros em tempo de compilação e melhorando a manutenção do código.
-  - **Documentação em Código**: Adoção de comentários JSDoc objetivos em cada
-    arquivo para descrever módulos, funções, parâmetros e exemplos, facilitando
-    a compreensão e colaboração.
+- **Documentação em Código**: Adoção de comentários JSDoc objetivos em cada
+  arquivo para descrever módulos, funções, parâmetros e exemplos, facilitando a
+  compreensão e colaboração.
 - **Estrutura Modular**: Organização do projeto em diretórios separados
   (controllers, services, repositories, routers, etc.), promovendo separação de
   responsabilidades e escalabilidade.
