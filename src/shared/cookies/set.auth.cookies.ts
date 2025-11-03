@@ -19,6 +19,10 @@
 
 import { Response } from 'express';
 import isProduction from '../isProduction';
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 export const setAuthCookies = (
   res: Response,
@@ -31,13 +35,18 @@ export const setAuthCookies = (
     httpOnly: true,
     secure: production,
     sameSite: 'strict',
-    maxAge: 1000 * 60 * 5, // 5 min
+    maxAge: 1000 * 60 * parseInt(`${process.env.TIME_TOKEN as any}`),
   });
 
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
     secure: production,
     sameSite: 'strict',
-    maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    maxAge:
+      1000 *
+      60 *
+      60 *
+      24 *
+      parseInt(`${process.env.TIME_REFRESH_TOKEN as any}`),
   });
 };

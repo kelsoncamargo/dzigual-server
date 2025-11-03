@@ -16,6 +16,10 @@
  *
  * @throws Error If secret is not found or signing fails.
  */
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 import isProduction from '../isProduction';
 import { IJwtPayload } from './token.jwt.interface';
@@ -25,7 +29,7 @@ export default function createToken(payload: IJwtPayload): string {
   const { secret } = isProduction();
 
   return jwt.sign(payload, secret, {
-    expiresIn: '5m',
+    expiresIn: `${process.env.TIME_TOKEN as any}m`,
     algorithm: 'HS256',
   });
 }

@@ -23,13 +23,17 @@ import isProduction from '../isProduction';
 import hashToken from './hash.token';
 import { IJwtPayload } from './token.jwt.interface';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 export const createRefreshToken = async (
   payload: IJwtPayload,
 ): Promise<string> => {
   const { secret } = isProduction();
   const token = jwt.sign(payload, secret, {
-    expiresIn: '7d',
+    expiresIn: `${process.env.TIME_REFRESH_TOKEN as any}d`,
     algorithm: 'HS256',
   });
   const hashed = hashToken(token);

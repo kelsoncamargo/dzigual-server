@@ -18,6 +18,10 @@
 
 import { Response } from 'express';
 import isProduction from '../isProduction';
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 export default function setAccessToken(res: Response, accessToken: string) {
   const { isProduction: production } = isProduction();
@@ -26,6 +30,6 @@ export default function setAccessToken(res: Response, accessToken: string) {
     httpOnly: true,
     secure: production,
     sameSite: 'strict',
-    maxAge: 1000 * 60 * 5, // 5 minutes
+    maxAge: 1000 * 60 * parseInt(`${process.env.TIME_TOKEN as any}`),
   });
 }
