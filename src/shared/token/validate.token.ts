@@ -23,9 +23,8 @@ import { IJwtPayload } from './token.jwt.interface';
 import jwt from 'jsonwebtoken';
 
 export const validateToken = (token: string): IJwtPayload => {
-  const { secret } = isProduction();
-
   try {
+    const { secret } = isProduction();
     return jwt.verify(token, secret) as IJwtPayload;
   } catch (error) {
     throw new Error(`${MessageMap.ERROR.DEFAULT.INVALID}_token`);

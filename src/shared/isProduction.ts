@@ -24,9 +24,7 @@ export default function isProduction(): {
 } {
   const isProduction = process.env.PRODUCTION === 'true';
   const secret = (
-    isProduction
-      ? process.env.JWT_SECRET_REFRESH
-      : process.env.JWT_SECRET_DEV_REFRESH
+    isProduction ? process.env.JWT_SECRET : process.env.JWT_SECRET_DEV
   ) as string;
 
   if (!secret) {

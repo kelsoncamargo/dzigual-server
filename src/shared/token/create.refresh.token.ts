@@ -18,9 +18,7 @@
  * @throws Error If secret not found or database operations fail.
  */
 
-import database from '../../config/database';
 import isProduction from '../isProduction';
-import hashToken from './hash.token';
 import { IJwtPayload } from './token.jwt.interface';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -32,34 +30,8 @@ export const createRefreshToken = async (
   payload: IJwtPayload,
 ): Promise<string> => {
   const { secret } = isProduction();
-  const token = jwt.sign(payload, secret, {
+  return jwt.sign(payload, secret, {
     expiresIn: `${process.env.TIME_REFRESH_TOKEN as any}d`,
     algorithm: 'HS256',
   });
-  const hashed = hashToken(token);
-
-  const hasToken = await database.refreshToken.findUnique({
-    where: {
-      userId: payload.id,
-    },
-  });
-
-  if (hasToken) {
-    await database.refreshToken.update({
-      where: { userId: payload.id },
-      data: {
-        token: hashed,
-        revoked: false,
-      },
-    });
-  } else {
-    await database.refreshToken.create({
-      data: {
-        userId: payload.id,
-        token: hashed,
-      },
-    });
-  }
-
-  return token;
 };

@@ -27,8 +27,8 @@
  * @throws Error on init failure.
  */
 
-import express, { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
+import express, { Request, Response, NextFunction } from 'express';
 import { errors } from 'celebrate';
 
 import router from './router';

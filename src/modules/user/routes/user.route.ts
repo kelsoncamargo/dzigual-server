@@ -1,31 +1,21 @@
-/**
- * @fileoverview Express router that aggregates user sub-routers for create, get, update, and remove operations.
- *
- * @module user-router
- * @version 1.0.0
- *
- * ### Key Setup
- * - Creates main router and mounts sub-routers at root path '/'.
- *
- * ### Routes
- * - Uses userCreateRouter, userGetRouter, userUpdateRouter, userRemoveRouter for respective user operations.
- *
- */
+import { Router } from 'express';
+import { userSchema } from '../schema/user.schema';
+import { celebrate } from 'celebrate';
+import { userController, userRequireAuth } from '..';
 
-import express from 'express';
-import userGetRouter from './user.get.route';
-import userCreateRouter from './user.create.route';
-import userUpdateRouter from './user.update.route';
-import userRemoveRouter from './user.remove.route';
+const userRouter = Router();
 
-const userRouter = express.Router();
+userRouter.get('/', userRequireAuth, userController.get);
 
-userRouter.use('/', userCreateRouter);
+userRouter.post('/', celebrate(userSchema.create()), userController.create);
 
-userRouter.use('/', userGetRouter);
+userRouter.patch(
+  '/',
+  userRequireAuth,
+  celebrate(userSchema.update()),
+  userController.update,
+);
 
-userRouter.use('/', userUpdateRouter);
-
-userRouter.use('/', userRemoveRouter);
+userRouter.delete('/', userRequireAuth, userController.delete);
 
 export default userRouter;

@@ -1,28 +1,19 @@
-/**
- * @fileoverview Main Express router for resource-related routes.
- *
- * @module resource-router
- * @version 1.0.0
- *
- * ### Key Setup
- * - Imports Express and the specific routers for getting all resources and getting a single resource.
- * - Creates a main router instance.
- * - Mounts both the get-all and get-single routers at the root path to handle respective sub-routes.
- *
- * ### Routes
- * - Uses '/': Mounts resourceGetAllRouter to handle routes for retrieving all resources.
- * - Uses '/': Mounts resourceGetRouter to handle routes for retrieving a single resource.
- *
- */
+import { Router } from 'express';
+import { authenticate } from '../../../middlewares/auth/middleware/auth.middleware';
 
-import express from 'express';
-import resourceGetAllRouter from './resource.getAll.route';
-import resourceGetRouter from './resource.get.route';
+import { ApiResourceRepo } from '../repo/api.resource.repo';
+import { ResourceService } from '../service/resource.service';
+import { ResourceController } from '../controller/resource.controller';
+import { userRequireAuth } from '../../user';
 
-const resourceRouter = express.Router();
+const resourceRouter = Router();
 
-resourceRouter.use('/', resourceGetAllRouter);
+const repository = new ApiResourceRepo();
+const service = new ResourceService(repository);
+const controller = new ResourceController(service);
 
-resourceRouter.use('/', resourceGetRouter);
+resourceRouter.get('/', userRequireAuth, controller.getAll);
+
+resourceRouter.get('/:id', userRequireAuth, controller.get);
 
 export default resourceRouter;

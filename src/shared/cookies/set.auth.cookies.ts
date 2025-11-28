@@ -35,7 +35,7 @@ export const setAuthCookies = (
     httpOnly: true,
     secure: production,
     sameSite: 'strict',
-    maxAge: 1000 * 60 * parseInt(`${process.env.TIME_TOKEN as any}`),
+    maxAge: 1000 * 60 * parseInt(`${process.env.TIME_ACCESS_TOKEN as any}`),
   });
 
   res.cookie('refreshToken', refreshToken, {

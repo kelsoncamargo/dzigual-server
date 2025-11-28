@@ -1,28 +1,14 @@
-/**
- * @fileoverview Express router that aggregates authentication sub-routers for login, logout, and refresh token endpoints.
- *
- * @module auth-router
- * @version 1.0.0
- *
- * ### Key Setup
- * - Creates main router and mounts sub-routers at root path '/'.
- *
- * ### Routes
- * - Uses authLoginRouter, authLogoutRouter, authRefreshTokenRouter for respective auth operations.
- *
- */
+import { Router } from 'express';
+import { celebrate } from 'celebrate';
+import { authSchema } from '../schema/auth.schema';
+import { authController } from '../';
 
-import express from 'express';
-import authLoginRouter from './auth.login.routes';
-import authLogoutRouter from './auth.logout.routes';
-import authRefreshTokenRouter from './auth.refreshToken.routes';
+const authRouter = Router();
 
-const routerAuth = express.Router();
+authRouter.post('/', celebrate(authSchema.login()), authController.login);
 
-routerAuth.use('/', authLoginRouter);
+authRouter.put('/', authController.logout);
 
-routerAuth.use('/', authLogoutRouter);
+authRouter.get('/', authController.refreshToken);
 
-routerAuth.use('/', authRefreshTokenRouter);
-
-export default routerAuth;
+export default authRouter;

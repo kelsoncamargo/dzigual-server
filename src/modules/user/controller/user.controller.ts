@@ -1,27 +1,56 @@
-/**
- * @fileoverview Controller class aggregating user CRUD handlers (create, get, update, remove) and exporting a singleton instance.
- *
- * @module user-controller
- * @version 1.0.0
- *
- * ### Key Setup
- * - Aggregates user controller functions into a class for centralized access.
- *
- * ### Class
- * - UserController: Class with methods for create, get, update, and remove.
- *
- */
-
-import { create } from './user.create.controller';
-import { get } from './user.get.controller';
-import { remove } from './user.remove.controller';
-import { update } from './user.update.controller';
+import { IUserService } from '../interface/user.services.interface';
+import { Request, Response } from 'express';
+import { MessageMap } from '../../../shared/messages';
+import { cookies } from '../../../shared/cookies/cookies';
 
 export class UserController {
-  create = create;
-  get = get;
-  update = update;
-  remove = remove;
-}
+  constructor(private readonly service: IUserService) {}
 
-export const userController = new UserController();
+  get = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      const id = req.payload.id as string;
+      const resource = await this.service.get(id);
+      return res.status(200).json({ message: resource });
+    } catch (error) {
+      return this.handleError(res, error);
+    }
+  };
+
+  create = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      const body = req.body;
+      const resource = await this.service.create(body);
+      return res.status(201).json({ message: resource });
+    } catch (error) {
+      return this.handleError(res, error);
+    }
+  };
+
+  update = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      const id = req.payload.id as string;
+      const body = req.body;
+      const resource = await this.service.update(id, body);
+      return res.status(200).json({ message: resource });
+    } catch (error) {
+      return this.handleError(res, error);
+    }
+  };
+
+  delete = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      const id = req.payload.id as string;
+      const resource = await this.service.delete(id);
+      cookies.clearAuthCookies(res);
+      return res.status(200).json({ message: resource });
+    } catch (error) {
+      return this.handleError(res, error);
+    }
+  };
+
+  private handleError(res: Response, error: unknown): Response {
+    const message =
+      error instanceof Error ? error.message : MessageMap.ERROR.DEFAULT.SERVER;
+    return res.status(400).json({ message });
+  }
+}
